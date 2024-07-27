@@ -12,6 +12,7 @@ import (
 
 func (s *Server) RegisterRoutes() http.Handler {
 	r := gin.Default()
+	r.Use(CORSMiddleware())
 
 	r.GET("/", s.HelloWorldHandler)
 
@@ -33,7 +34,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 	donors.GET("/requests", s.DonorHandler.GetRequestsHandler)
 	donors.GET("/requests/:id")
 	donors.POST("/donate/:id")
-	donors.GET("/donations", s.DonorHandler.GetDonations)
+	donors.GET("/donations/:id", s.DonorHandler.GetDonations)
+	// make url parameters
 
 	grassroots := v1.Group("/grassroots")
 	grassroots.POST("/register", s.GrassrootHandler.Register)
@@ -78,4 +80,20 @@ func (s *Server) healthHandler(c *gin.Context) {
 	stats["status"] = "up"
 	stats["message"] = "It's healthy"
 	c.JSON(http.StatusOK, stats)
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }
