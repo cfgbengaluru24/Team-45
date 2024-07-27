@@ -30,7 +30,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	donors := v1.Group("/donors")
 	donors.POST("/register")
-	donors.GET("/requests")
+	donors.GET("/requests", s.DonorHandler.GetRequestsHandler)
 	donors.GET("/requests/:id")
 	donors.POST("/donate/:id")
 	donors.GET("/donations")

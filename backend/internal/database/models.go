@@ -10,16 +10,18 @@ import (
 )
 
 type Donation struct {
-	DonationID int64     `json:"donation_id"`
-	DonorUuid  uuid.UUID `json:"donor_uuid"`
-	Amount     int64     `json:"amount"`
-	RequestID  *int64    `json:"request_id"`
+	DonationID int64              `json:"donation_id"`
+	DonorUuid  uuid.UUID          `json:"donor_uuid"`
+	Amount     int64              `json:"amount"`
+	RequestID  *int64             `json:"request_id"`
+	CreatedAt  pgtype.Timestamptz `json:"created_at"`
 }
 
 type Donor struct {
 	DonorUuid uuid.UUID `json:"donor_uuid"`
 	ID        int64     `json:"id"`
 	Anonymous bool      `json:"anonymous"`
+	GetReport bool      `json:"get_report"`
 	Donated   int64     `json:"donated"`
 }
 
@@ -30,14 +32,15 @@ type Grassroot struct {
 }
 
 type Request struct {
-	RequestID         int64     `json:"request_id"`
-	SchoolUuid        uuid.UUID `json:"school_uuid"`
-	Type              string    `json:"type"`
-	Details           *string   `json:"details"`
-	AssignedGrassroot uuid.UUID `json:"assigned_grassroot"`
-	Status            int32     `json:"status"`
-	Cost              int64     `json:"cost"`
-	Donated           *int64    `json:"donated"`
+	RequestID         int64              `json:"request_id"`
+	SchoolUuid        uuid.UUID          `json:"school_uuid"`
+	Type              string             `json:"type"`
+	Details           *string            `json:"details"`
+	AssignedGrassroot uuid.UUID          `json:"assigned_grassroot"`
+	Status            int32              `json:"status"`
+	Cost              int64              `json:"cost"`
+	Donated           *int64             `json:"donated"`
+	CreatedAt         pgtype.Timestamptz `json:"created_at"`
 }
 
 type RequestStatus struct {
@@ -50,8 +53,8 @@ type School struct {
 	ID                int64       `json:"id"`
 	Name              string      `json:"name"`
 	Location          string      `json:"location"`
-	VerifiedAdmin     pgtype.UUID `json:"verified_admin"`
-	VerifiedGrassroot pgtype.UUID `json:"verified_grassroot"`
+	AssignedGrassroot pgtype.UUID `json:"assigned_grassroot"`
+	Status            int32       `json:"status"`
 }
 
 type Student struct {
