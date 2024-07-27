@@ -23,6 +23,73 @@ func Handler(db *pgxpool.Pool) *DonorHandler {
 	}
 }
 
+func (d *DonorHandler) Register(c *gin.Context) {
+	var input struct {
+		Email     string `json:"email" binding:"required,email"`
+		FullName  string `json:"name" binding:"required"`
+		Phone     string `json:"phone_number" binding:"required"`
+		Password  string `json:"password" binding:"required"`
+		Anonymous bool   `json:"anonymous"`
+		GetReport bool   `json:"get_report"`
+	}
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		merrors.Validation(c, err.Error())
+		return
+	}
+	role := "donor"
+	pwdHash, err := utils.PasswordHash(input.Password)
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	tx, err := d.db.Begin(c)
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+	defer tx.Rollback(c)
+
+	qtx := database.New(d.db).WithTx(tx)
+
+	user, err := qtx.RegisterUser(c, database.RegisterUserParams{
+		Email:        input.Email,
+		FullName:     input.FullName,
+		Phone:        input.Phone,
+		Role:         role,
+		PasswordHash: pwdHash,
+	})
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	err = qtx.RegisterDonors(c, database.RegisterDonorsParams{
+		ID:        user.ID,
+		Anonymous: input.Anonymous,
+		GetReport: input.GetReport,
+	})
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	err = tx.Commit(c)
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, utils.BaseResponse{
+		Success:    true,
+		Message:    "donor successfully registered",
+		StatusCode: http.StatusOK,
+	})
+
+}
+
 func (d *DonorHandler) GetRequestsHandler(c *gin.Context) {
 	q := database.New(d.db)
 
@@ -42,7 +109,7 @@ func (d *DonorHandler) GetRequestsHandler(c *gin.Context) {
 
 func (d *DonorHandler) GetDonations(c *gin.Context) {
 	var input struct {
-		DonorUUID uuid.UUID `json:"donor_uuid" binding:"required"`
+		DonorUUID uuid.UUID `json:"donor_uuid" binding:"required,uuid"`
 	}
 	err := c.ShouldBindJSON(&input)
 	if err != nil {

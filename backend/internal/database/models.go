@@ -27,7 +27,7 @@ type Donor struct {
 
 type Grassroot struct {
 	GrassrootUuid uuid.UUID `json:"grassroot_uuid"`
-	ID            *int64    `json:"id"`
+	ID            int64     `json:"id"`
 	Location      string    `json:"location"`
 }
 
@@ -39,7 +39,7 @@ type Request struct {
 	AssignedGrassroot uuid.UUID          `json:"assigned_grassroot"`
 	Status            int32              `json:"status"`
 	Cost              int64              `json:"cost"`
-	Donated           *int64             `json:"donated"`
+	Donated           int64              `json:"donated"`
 	CreatedAt         pgtype.Timestamptz `json:"created_at"`
 }
 
