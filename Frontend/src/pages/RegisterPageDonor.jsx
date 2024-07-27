@@ -1,6 +1,7 @@
 // src/RegisterPageDonor.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useDonorContext } from '../context/DonorContext';
 
 const RegisterPageDonor = ({ role }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ const RegisterPageDonor = ({ role }) => {
     anonymous: null,
     get_updates: null,
   });
+
+  const { donorId, setDonorId } = useDonorContext();
   
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -38,10 +41,11 @@ const RegisterPageDonor = ({ role }) => {
         },
       });
       console.log(response.data);
-      alert('Registration successful!');
+      setDonorId(response.id);
+      // alert('Registration successful!');
     } catch (error) {
       console.error(error);
-      alert('Registration failed.');
+      // alert('Registration failed.');
     }
   };
 
