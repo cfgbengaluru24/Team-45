@@ -15,8 +15,9 @@ import RegisterPageDonor from './pages/RegisterPageDonor.jsx';
 import DashboardSchool from './pages/DashboardSchool.jsx';
 import SubmitRequest from './pages/SubmitRequests.jsx';
 import ViewRequests from './pages/ViewRequests.jsx';
-import GrassRooter from './pages/GrassRooter';
-
+import GrassRooter from './pages/GrassRooter';import NGODashboard from './pages/NGODashboard';
+import AllDonations from './pages/AllDonations';
+import SideBarAdmin from './pages/SideBarAdmin'
 export default function App() {
   const router = createBrowserRouter([
     {"path": "/", "element": <HomePage/>},
@@ -34,7 +35,10 @@ export default function App() {
     {"path": "/donate", "element": <DonatePage/>},
     {"path": "/test", "element": <Combine/>},
     {"path": "/test2", "element": <UserInfo/>},
-    {"path": "/grassRooter/dashboard", "element": <GrassRooter/>}
+    {"path": "/grassRooter/dashboard", "element": <GrassRooter/>},{"path": "/NGO/Dashboard", "element": <NGODashboard/>},
+    {"path": "/NGO/AllDonations", "element": <AllDonations/>},
+    {"path": "/NGO/Sidebar", "element": <SideBarAdmin/>}
+    
   ])
   return (
     <RouterProvider router={router}/>

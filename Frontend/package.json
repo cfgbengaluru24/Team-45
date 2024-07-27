@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "react-scripts start",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
@@ -17,10 +20,14 @@
     "ag-grid-react": "^32.0.2",
     "axios": "^1.7.2",
     "framer-motion": "^11.3.18",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "react-intersection-observer": "^9.13.0",
-    "react-router-dom": "^6.25.1"
+    "react-router-dom": "^6.25.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "tailwindcss": "^2.2.19"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
