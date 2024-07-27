@@ -8,6 +8,7 @@ package database
 import (
 	"context"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -49,4 +50,39 @@ func (q *Queries) GetDonorRequests(ctx context.Context) ([]GetDonorRequestsRow, 
 		return nil, err
 	}
 	return items, nil
+}
+
+const newRequest = `-- name: NewRequest :one
+INSERT INTO requests (school_uuid, type, details, cost)
+VALUES ($1, $2, $3, $4)
+RETURNING request_id, school_uuid, type, details, assigned_grassroot, status, cost, donated, created_at
+`
+
+type NewRequestParams struct {
+	SchoolUuid uuid.UUID `json:"school_uuid"`
+	Type       string    `json:"type"`
+	Details    *string   `json:"details"`
+	Cost       int64     `json:"cost"`
+}
+
+func (q *Queries) NewRequest(ctx context.Context, arg NewRequestParams) (Request, error) {
+	row := q.db.QueryRow(ctx, newRequest,
+		arg.SchoolUuid,
+		arg.Type,
+		arg.Details,
+		arg.Cost,
+	)
+	var i Request
+	err := row.Scan(
+		&i.RequestID,
+		&i.SchoolUuid,
+		&i.Type,
+		&i.Details,
+		&i.AssignedGrassroot,
+		&i.Status,
+		&i.Cost,
+		&i.Donated,
+		&i.CreatedAt,
+	)
+	return i, err
 }

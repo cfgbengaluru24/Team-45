@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSchoolContext } from '../context/SchoolContext';
 
 const RegisterPageSchool = ({ role }) => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,8 @@ const RegisterPageSchool = ({ role }) => {
     verifiedAdmin: 0,
     verifiedGrassroot: 0,
   });
+
+  const { schoolId, setSchoolId } = useSchoolContext();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -44,7 +47,8 @@ const RegisterPageSchool = ({ role }) => {
         },
       });
       console.log(response.data);
-      alert('Registration successful!');
+      setSchoolId(response.id);
+      // alert('Registration successful!');
     } catch (error) {
       console.error(error);
       alert('Registration failed.');

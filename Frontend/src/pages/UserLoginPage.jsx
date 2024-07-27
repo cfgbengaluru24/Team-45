@@ -8,8 +8,14 @@ const UserLoginPage = () => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
-    userType: "admin", // Default userType
+    userType: "admin",
   });
+  //context
+  const { adminId, setAdminId } = useAdminContext();
+  const { grassRootWorkerId, setGrassRootWorkerId } =
+    useGrassRootWorkerContext();
+  const { donorId, setDonorId } = useDonorContext();
+  const { schoolId, setSchoolId } = useSchoolContext();
 
   const navigate = useNavigate();
 
@@ -30,6 +36,19 @@ const UserLoginPage = () => {
       );
       console.log(response.data);
       localStorage.setItem("mentor_Id", response.data);
+
+      // save data in context
+      const user = credentials.userType;
+      if (user === "admin") {
+        setAdminId(response.id);
+      } else if (user === "grassRootWorker") {
+        setGrassRootWorkerId(response.id);
+      } else if (user === "donor") {
+        setDonorId(response.id);
+      } else if (user === "school") {
+        setSchoolId(response.id);
+      }
+
       navigate(`/${credentials.userType}/dashboard`);
     } catch (error) {
       console.error("There was an error logging in!", error);
@@ -85,7 +104,7 @@ const UserLoginPage = () => {
               >
                 <option value="admin">Admin</option>
                 <option value="donor">Donor</option>
-                <option value="grassrootworker">Grass Root Worker</option>
+                <option value="grassRootWorker">Grass Root Worker</option>
                 <option value="school">School</option>
               </select>
             </div>
@@ -99,16 +118,28 @@ const UserLoginPage = () => {
           <div className="mt-4 text-center">
             <p className="text-gray-700">Don't have an account?</p>
             <div className="space-x-2">
-              <Link to="/register" className="text-blue-500 hover:text-blue-700">
+              <Link
+                to="/register"
+                className="text-blue-500 hover:text-blue-700"
+              >
                 Admin
               </Link>
-              <Link to="/register" className="text-blue-500 hover:text-blue-700">
+              <Link
+                to="/register"
+                className="text-blue-500 hover:text-blue-700"
+              >
                 Schools
               </Link>
-              <Link to="/register" className="text-blue-500 hover:text-blue-700">
+              <Link
+                to="/register"
+                className="text-blue-500 hover:text-blue-700"
+              >
                 Grassroot worker
               </Link>
-              <Link to="/register" className="text-blue-500 hover:text-blue-700">
+              <Link
+                to="/register"
+                className="text-blue-500 hover:text-blue-700"
+              >
                 Donors
               </Link>
             </div>

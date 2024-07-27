@@ -33,7 +33,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	donors.GET("/requests", s.DonorHandler.GetRequestsHandler)
 	donors.GET("/requests/:id")
 	donors.POST("/donate/:id")
-	donors.GET("/donations")
+	donors.GET("/donations", s.DonorHandler.GetDonations)
 
 	grassroots := v1.Group("/grassroots")
 	grassroots.POST("/register")
@@ -44,7 +44,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	schools := v1.Group("/schools")
 	schools.POST("/register")
-	schools.POST("/requests")
+	schools.POST("/requests", s.SchoolHandler.NewRequest)
 
 	v1.POST("/login")
 
