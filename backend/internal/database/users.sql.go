@@ -47,3 +47,83 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]GetAllUsersRow, error) {
 	}
 	return items, nil
 }
+
+const registerDonors = `-- name: RegisterDonors :exec
+Insert into donors (id,"anonymous",get_report)
+values ($1,$2,$3)
+`
+
+type RegisterDonorsParams struct {
+	ID        int64 `json:"id"`
+	Anonymous bool  `json:"anonymous"`
+	GetReport bool  `json:"get_report"`
+}
+
+func (q *Queries) RegisterDonors(ctx context.Context, arg RegisterDonorsParams) error {
+	_, err := q.db.Exec(ctx, registerDonors, arg.ID, arg.Anonymous, arg.GetReport)
+	return err
+}
+
+const registerGrassroots = `-- name: RegisterGrassroots :exec
+Insert into grassroots (id,"location")
+values ($1,$2)
+`
+
+type RegisterGrassrootsParams struct {
+	ID       int64  `json:"id"`
+	Location string `json:"location"`
+}
+
+func (q *Queries) RegisterGrassroots(ctx context.Context, arg RegisterGrassrootsParams) error {
+	_, err := q.db.Exec(ctx, registerGrassroots, arg.ID, arg.Location)
+	return err
+}
+
+const registerSchool = `-- name: RegisterSchool :exec
+Insert into schools (id,"name","location")
+values ($1,$2,$3)
+`
+
+type RegisterSchoolParams struct {
+	ID       int64  `json:"id"`
+	Name     string `json:"name"`
+	Location string `json:"location"`
+}
+
+func (q *Queries) RegisterSchool(ctx context.Context, arg RegisterSchoolParams) error {
+	_, err := q.db.Exec(ctx, registerSchool, arg.ID, arg.Name, arg.Location)
+	return err
+}
+
+const registerUser = `-- name: RegisterUser :one
+Insert into users (email,full_name,phone,"role",password_hash)
+values ($1,$2,$3,$4,$5) returning id, email, full_name, phone, role, password_hash
+`
+
+type RegisterUserParams struct {
+	Email        string `json:"email"`
+	FullName     string `json:"full_name"`
+	Phone        string `json:"phone"`
+	Role         string `json:"role"`
+	PasswordHash []byte `json:"password_hash"`
+}
+
+func (q *Queries) RegisterUser(ctx context.Context, arg RegisterUserParams) (User, error) {
+	row := q.db.QueryRow(ctx, registerUser,
+		arg.Email,
+		arg.FullName,
+		arg.Phone,
+		arg.Role,
+		arg.PasswordHash,
+	)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.FullName,
+		&i.Phone,
+		&i.Role,
+		&i.PasswordHash,
+	)
+	return i, err
+}

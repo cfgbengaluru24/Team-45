@@ -20,7 +20,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	v1 := r.Group("/v1")
 
 	admin := v1.Group("/admin")
-	admin.POST("/register")
+	admin.POST("/register", s.AdminHandler.Register)
 	admin.GET("/schools")
 	admin.POST("/schools/assign")
 	admin.POST("/schools/verify")
@@ -29,21 +29,21 @@ func (s *Server) RegisterRoutes() http.Handler {
 	admin.POST("/requests/verify")
 
 	donors := v1.Group("/donors")
-	donors.POST("/register")
+	donors.POST("/register", s.DonorHandler.Register)
 	donors.GET("/requests", s.DonorHandler.GetRequestsHandler)
 	donors.GET("/requests/:id")
 	donors.POST("/donate/:id")
 	donors.GET("/donations", s.DonorHandler.GetDonations)
 
 	grassroots := v1.Group("/grassroots")
-	grassroots.POST("/register")
+	grassroots.POST("/register", s.GrassrootHandler.Register)
 	grassroots.GET("/schools")
 	grassroots.POST("/schools/verify")
 	grassroots.GET("/requests")
 	grassroots.POST("/requests/verify")
 
 	schools := v1.Group("/schools")
-	schools.POST("/register")
+	schools.POST("/register", s.SchoolHandler.Register)
 	schools.POST("/requests", s.SchoolHandler.NewRequest)
 
 	v1.POST("/login")
