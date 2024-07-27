@@ -10,13 +10,21 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/joho/godotenv/autoload"
 
+	"github.com/cfgbengaluru/Team-45/backend/internal/controllers/admin"
+	"github.com/cfgbengaluru/Team-45/backend/internal/controllers/donors"
+	"github.com/cfgbengaluru/Team-45/backend/internal/controllers/grassroots"
+	"github.com/cfgbengaluru/Team-45/backend/internal/controllers/schools"
 	"github.com/cfgbengaluru/Team-45/backend/internal/database"
 )
 
 type Server struct {
 	port int
 
-	db *pgxpool.Pool
+	db               *pgxpool.Pool
+	AdminHandler     *admin.AdminHandler
+	DonorHandler     *donors.DonorHandler
+	GrassrootHandler *grassroots.GrassrootHandler
+	SchoolHandler    *schools.SchoolHandler
 }
 
 func NewServer() *http.Server {
@@ -25,7 +33,11 @@ func NewServer() *http.Server {
 	NewServer := &Server{
 		port: port,
 
-		db: db,
+		db:               db,
+		AdminHandler:     admin.Handler(db),
+		DonorHandler:     donors.Handler(db),
+		GrassrootHandler: grassroots.Handler(db),
+		SchoolHandler:    schools.Handler(db),
 	}
 
 	// Declare Server config

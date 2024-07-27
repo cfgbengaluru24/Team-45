@@ -16,11 +16,11 @@ const CustomButtonComponent = (props) => {
   );
 };
 
-export default function AgGrid({width, height}) {
+export default function HistoryTable({width, height}) {
   const [rowData, setRowData] = useState([
     { Sno: "1", Description: "10 Tables needed", Type: "Infra", Amount: 6000 },
-    { Sno: "1", Type: "Scholarship", Amount: 60000 },
-    { Sno: "1", Type: "Infra", Amount: 76000 },
+    { Sno: "2", Type: "Scholarship", Amount: 60000 },
+    { Sno: "3", Type: "Infra", Amount: 76000 },
   ]);
 
   // Column Definitions: Defines the columns to be displayed.
@@ -28,8 +28,9 @@ export default function AgGrid({width, height}) {
     { field: "Sno" },
     { field: "Description", flex: 2 },
     { field: "Type", filter: true },
+    { field: "Receipt ID", filter: true },
     { field: "Amount" },
-    { field: "button", cellRenderer: CustomButtonComponent },
+    { field: "Date"},
   ]);
 
   // useEffect(() => {
