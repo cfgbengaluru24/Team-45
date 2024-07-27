@@ -4,7 +4,7 @@ CREATE TABLE if not exists public.requests (
 	"type" text NOT NULL,
 	details text NULL,
 	assigned_grassroot uuid NOT NULL,
-	status int4 NOT NULL,
+	status int4 NOT NULL DEFAULT 1,
 	"cost" int8 NOT NULL,
 	donated int8 NULL,
 	created_at timestamp with time zone DEFAULT Now() NOT NULL,
