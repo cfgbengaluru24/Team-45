@@ -16,6 +16,10 @@ import RegisterPageDonor from './pages/RegisterPageDonor.jsx';
 import DashboardSchool from './pages/DashboardSchool.jsx';
 import SubmitRequest from './pages/SubmitRequests.jsx';
 import ViewRequests from './pages/ViewRequests.jsx';
+import { DonorProvider } from './context/DonorContext.jsx';
+import { GrassRootWorkerProvider } from './context/GrassRootWorkerContext.jsx';
+import { SchoolProvider } from './context/SchoolContext.jsx';
+import { AdminProvider } from './context/AdminContext.jsx';
 
 
 export default function App() {
@@ -38,6 +42,15 @@ export default function App() {
 
   ])
   return (
-    <RouterProvider router={router}/>
+    <DonorProvider>
+      <GrassRootWorkerProvider>
+        <SchoolProvider>
+          <AdminProvider>
+             <RouterProvider router={router}/>
+          </AdminProvider>
+        </SchoolProvider>
+      </GrassRootWorkerProvider>
+    </DonorProvider>
+
   )
 }

@@ -35,12 +35,13 @@ const RegisterPageDonor = ({ role }) => {
     data.append('get_updates', formData.get_updates);
 
     try {
-      const response = await axios.post('/api/register/donor', data, {
+      const response = await axios.post('http://localhost:8080/v1/donors/register', data, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'json',
         },
       });
       console.log(response.data);
+      
       setDonorId(response.id);
       // alert('Registration successful!');
     } catch (error) {
