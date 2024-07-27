@@ -41,6 +41,18 @@ Select school_uuid,request_id,"name","location","type","details","cost","created
 requests INNER JOIN schools ON requests.school_uuid=schools.school_uuid 
 INNER JOIN users ON schools.id=users.id where requests.status=2;
 
+-- name: AdminSchoolVerify :exec
+Update schools set status=$2 where school_uuid=$1;
+
+-- name: AdminRequestVerify :exec
+Update requests set status=$2 where school_uuid=$1;
+
+-- name: GrassrootsSchoolVerify :exec
+Update schools set status=$2 where school_uuid=$1;
+
+-- name: GrassrootsRequestVerify :exec
+Update requests set status=$2 where school_uuid=$1;
+
 
 
 
