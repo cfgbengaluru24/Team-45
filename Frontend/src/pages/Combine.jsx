@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AgGrid from "./AgGid";
 import SideNavDonor from "./SideNavDonor";
-import UserInfo from "./UserInfo";
+import UserInfo from "./DonorInfo";
 import HistoryTable from "./HistoryTable";
 
 export default function Combine() {

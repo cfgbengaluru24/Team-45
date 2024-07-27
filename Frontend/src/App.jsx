@@ -9,7 +9,7 @@ import AgGrid from './pages/AgGid';
 // import SideNavDonor from './pages/SideNavDonor';
 import DonatePage from './pages/DonatePage';
 import Combine from './pages/Combine';
-import UserInfo from './pages/UserInfo';
+import UserInfo from './pages/DonorInfo.jsx';
 import RegisterPageSchool from './pages/RegisterPageSchool.jsx';
 import RegisterPageDonor from './pages/RegisterPageDonor.jsx';
 import DashboardSchool from './pages/DashboardSchool.jsx';
