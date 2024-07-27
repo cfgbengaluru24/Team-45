@@ -1,5 +1,7 @@
 // src/GrassRootWorkerRegister.js
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useGrassRootWorkerContext } from '../context/GrassRootWorkerContext';
 
 const GrassRootWorkerRegister = () => {
   const [formData, setFormData] = useState({
@@ -12,22 +14,32 @@ const GrassRootWorkerRegister = () => {
     password: '',
   });
 
+  const { grassRootWorkerId, setGrassRootWorkerId } = useGrassRootWorkerContext();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
+  const handleSubmit = async () => {
+    const url = 'https://your-api-route.com/register'; // Replace with your API endpoint
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      const response = await axios.post(url, formData, { headers });
+      console.log('Response:', response.data);
+      setGrassRootWorkerId(response.id);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Grass Root Worker Register</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-4">
           <div>
             <label className="block text-gray-700">First Name</label>
             <input
@@ -113,12 +125,12 @@ const GrassRootWorkerRegister = () => {
             />
           </div>
           <button
-            type="submit"
+            onClick={handleSubmit}
             className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
             Register
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
