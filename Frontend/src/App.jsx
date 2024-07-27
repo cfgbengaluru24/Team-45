@@ -11,8 +11,9 @@ import SideNavDonor from './pages/SideNavDonor';
 import DonatePage from './pages/DonatePage';
 import Combine from './pages/Combine';
 import UserInfo from './pages/UserInfo';
-
-
+import NGODashboard from './pages/NGODashboard';
+import AllDonations from './pages/AllDonations';
+import SideBarAdmin from './pages/SideBarAdmin'
 export default function App() {
   const router = createBrowserRouter([
     {"path": "/", "element": <HomePage/>},
@@ -25,7 +26,10 @@ export default function App() {
     {"path": "/donate", "element": <DonatePage/>},
     {"path": "/test", "element": <Combine/>},
     {"path": "/test2", "element": <UserInfo/>},
-
+    {"path": "/NGO/Dashboard", "element": <NGODashboard/>},
+    {"path": "/NGO/AllDonations", "element": <AllDonations/>},
+    {"path": "/NGO/Sidebar", "element": <SideBarAdmin/>}
+    
   ])
   return (
     <RouterProvider router={router}/>
