@@ -60,12 +60,12 @@ const UserInfo = () => {
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
+    <div className="p-6 bg-white rounded-lg shadow-md w-full">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">User Profile</h1>
       <div className="flex items-center mb-4">
         <img
           className="w-24 h-24 rounded-full mr-4"
-          src={`https://i.pravatar.cc/150?img=${user.id}`} // Placeholder avatar
+          src={``} // Placeholder avatar
           alt="User Avatar"
         />
         <div>
@@ -93,6 +93,7 @@ const UserInfo = () => {
       <div className="mt-6 text-center">
         <button onClick={handleEdit} className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">Edit Profile</button>
       </div>
+
     </div>
   );
 };
