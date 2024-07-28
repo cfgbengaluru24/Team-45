@@ -61,11 +61,11 @@ const RegisterPageSchool = ({ role }) => {
       console.log(response.data);
       setSchoolId(response.id);
       // alert('Registration successful!');
-      Navigate('/school/dashboard')
     } catch (error) {
       console.error(error);
-      alert('Registration failed.');
+      // alert('Registration failed.');
     }
+    navigate('/school/dashboard');
   };
 
   return (

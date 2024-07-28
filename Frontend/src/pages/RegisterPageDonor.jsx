@@ -62,12 +62,12 @@ const RegisterPageDonor = ({ role }) => {
       console.log(response.data);
 
       setDonorId(response.id);
-      navigate("/donor/dashboard");
       // alert('Registration successful!');
     } catch (error) {
       console.error(error);
       // alert('Registration failed.');
     }
+    navigate("/donor/dashboard");
   };
 
   return (

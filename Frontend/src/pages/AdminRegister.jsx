@@ -40,10 +40,10 @@ const AdminRegister = () => {
 
       setAdminId(response.data.id);
       setIsLoggedIn(true);
-      navigate("/admin/dashboard");
     } catch (error) {
       console.error('Error:', error);
     }
+    navigate("/admin/dashboard");
   };
 
   return (
