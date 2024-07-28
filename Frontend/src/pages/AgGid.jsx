@@ -22,15 +22,14 @@ export default function AgGrid({ width, height }) {
     const getData = async () => {
       try {
         const response = axios.get("http://localhost:8080/v1/donors/requests");
-        setRowData(
-          response.map((data) => {
-            return {
-              request_id: data.request_id,
-              type: data.type,
-              Descrcription: data.details
-            };
-          })
-        );
+        setRowData(data.map((item, index) => ({
+          Sno: index + 1,
+          request_id: item.request_id || '',
+          description: item.details,
+          ReceiptID: item.receiptId,
+          Amount: item.cost,
+          type: item.type
+        })));
       } catch (error) {
         console.log(error);
       }
@@ -46,8 +45,9 @@ export default function AgGrid({ width, height }) {
   // Column Definitions: Defines the columns to be displayed.
   const [colDefs, setColDefs] = useState([
     { field: "Sno" },
+    { field: "request_id" },
     { field: "Description", flex: 2 },
-    { field: "Type", filter: true },
+    { field: "type", filter: true },
     { field: "Amount" },
     { field: "button", cellRenderer: CustomButtonComponent },
   ]);
