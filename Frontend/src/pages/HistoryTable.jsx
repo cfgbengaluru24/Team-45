@@ -16,49 +16,44 @@ const CustomButtonComponent = (props) => {
   );
 };
 
-export default function HistoryTable({ width, height }) {
-  const [rowData, setRowData] = useState([]);
+export default function HistoryTable({width, height}) {
+  const [rowData, setRowData] = useState([
+    { Sno: "1", Description: "10 Tables Donated", Type: "Infra", Amount: 6000, Date: "12/05/2023" },
+    { Sno: "2", Description: "15 Benches Donated",  Type: "Scholarship", Amount: 60000 , Date: "25/06/2023"},
+    { Sno: "3", Description: "5 Students from class 2 were paid 2 months of their page", Type: "Infra", Amount: 76000, Date: "25/01/2024" },
+  ]);
 
   // Column Definitions: Defines the columns to be displayed.
   const [colDefs, setColDefs] = useState([
     { field: "Sno" },
     { field: "Description", flex: 2 },
     { field: "Type", filter: true },
-    { field: "ReceiptID", filter: true },
+    // { field: "Receipt ID", filter: true },
     { field: "Amount" },
-    { field: "Date" },
+    { field: "Date"},
   ]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(""); // Replace with your API endpoint
-        const data = response.data;
-        setRowData(data.map((item, index) => ({
-          Sno: index + 1,
-          Description: item.description || '',
-          Type: item.type,
-          ReceiptID: item.receiptId,
-          Amount: item.amount,
-          Date: item.date
-        })));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  // useEffect(() => {
+  //     const data = axios.get("/api/getData");
 
-    fetchData();
-  }, []);
+  //     setColDefs(data.map({
+  //         Sno: data.number,
+  //         Type: data.type,
+  //         Amount: data.Amount,
+  //     }))
+  // }, [])
 
   return (
-    <div>
-      <SideNavDonor />
-      <div
-        className="ag-theme-quartz"
-        style={{ height: "100vh", width: "85vw" }}
-      >
-        <AgGridReact rowData={rowData} columnDefs={colDefs} />
+    // wrapping container with theme & size
+    <>
+      <div>
+        <div
+          className="ag-theme-quartz "
+          style={{ height: "100vh" , width: "85vw"}} // the Data Grid will fill the size of the parent container
+        >
+          <AgGridReact rowData={rowData} columnDefs={colDefs} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

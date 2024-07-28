@@ -16,38 +16,18 @@ const CustomButtonComponent = (props) => {
   );
 };
 
-export default function AgGrid({ width, height }) {
-  useEffect(() => {
-    const [rowData, setRowData] = useState();
-    const getData = async () => {
-      try {
-        const response = axios.get("http://localhost:8080/v1/donors/requests");
-        setRowData(data.map((item, index) => ({
-          Sno: index + 1,
-          request_id: item.request_id || '',
-          description: item.details,
-          ReceiptID: item.receiptId,
-          Amount: item.cost,
-          type: item.type
-        })));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getData();
-  });
-  // request_id
-  // type
-  // details
-  // cost
-  // created_at
+export default function AgGrid({width, height}) {
+  const [rowData, setRowData] = useState([
+    { Sno: "1", Description: "10 Tables needed !", Type: "Infra", Amount: 6000 },
+    { Sno: "2", Description: "2 Students from class 2 need you help !", Type: "Scholarship" , Amount: 60000 },
+    { Sno: "3", Description: "15 Benches needed !", Type: "Infra", Amount: 76000 },
+  ]);
 
   // Column Definitions: Defines the columns to be displayed.
   const [colDefs, setColDefs] = useState([
     { field: "Sno" },
-    { field: "request_id" },
     { field: "Description", flex: 2 },
-    { field: "type", filter: true },
+    { field: "Type", filter: true },
     { field: "Amount" },
     { field: "button", cellRenderer: CustomButtonComponent },
   ]);
@@ -68,7 +48,7 @@ export default function AgGrid({ width, height }) {
       <div>
         <div
           className="ag-theme-quartz "
-          style={{ height: "100vh", width: "85vw" }} // the Data Grid will fill the size of the parent container
+          style={{ height: "100vh" , width: "85vw"}} // the Data Grid will fill the size of the parent container
         >
           <AgGridReact rowData={rowData} columnDefs={colDefs} />
         </div>

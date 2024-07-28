@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import EditProfile from './EditProfile';
 import { useDonorContext } from '../context/DonorContext';
 
@@ -9,12 +8,27 @@ const UserInfo = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const {donorId, setDonorId} = useDonorContext();
+  const { donorId, setDonorId } = useDonorContext();
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/v1/donors/donations/8926cab8-a6b4-4e6b-beb4-475f5fcd905e`); // Replace with your API endpoint
-        setUser(response.data);
+        // Replace with dummy data
+        const dummyData = {
+          name: "John Doe",
+          username: "johndoe",
+          email: "johndoe@example.com",
+          phone: "123-456-7890",
+          website: "johndoe.com",
+          company: { name: "Doe Enterprises" },
+          address: {
+            suite: "Apt. 123",
+            street: "456 Elm St",
+            city: "Springfield",
+            zipcode: "12345",
+          },
+        };
+        setUser(dummyData);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -67,7 +81,7 @@ const UserInfo = () => {
       <div className="flex items-center mb-4">
         <img
           className="w-24 h-24 rounded-full mr-4"
-          src={``} // Placeholder avatar
+          src={`https://via.placeholder.com/150`} // Placeholder avatar
           alt="User Avatar"
         />
         <div>
@@ -95,7 +109,6 @@ const UserInfo = () => {
       <div className="mt-6 text-center">
         <button onClick={handleEdit} className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">Edit Profile</button>
       </div>
-
     </div>
   );
 };
