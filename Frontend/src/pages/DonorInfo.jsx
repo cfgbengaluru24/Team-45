@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import EditProfile from './EditProfile';
-import { useDonorContext } from '../context/DonorContext';
+import { DonorContext } from '../context/DonorContext';
 
 const UserInfo = () => {
   const [user, setUser] = useState(null);
@@ -9,7 +9,8 @@ const UserInfo = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [donorId, setDonorId] = useDonorContext();
+  const { donorId } = useContext(DonorContext);  // Ensure correct usage of useContext
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -22,26 +23,28 @@ const UserInfo = () => {
       }
     };
 
-    fetchUserData();
-  }, []);
+    if (donorId) {
+      fetchUserData();
+    }
+  }, []); // Add donorId as a dependency
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = (updatedUser) => {
-    setUser({
-      ...user,
+    setUser((prevUser) => ({
+      ...prevUser,
       ...updatedUser,
-      company: { ...user.company, name: updatedUser.company },
+      company: { ...prevUser.company, name: updatedUser.company },
       address: {
-        ...user.address,
+        ...prevUser.address,
         suite: updatedUser.address.split(',')[0].trim(),
         street: updatedUser.address.split(',')[1].trim(),
         city: updatedUser.address.split(',')[2].trim(),
         zipcode: updatedUser.address.split(',')[3].trim(),
       },
-    });
+    }));
     setIsEditing(false);
   };
 
@@ -67,7 +70,7 @@ const UserInfo = () => {
       <div className="flex items-center mb-4">
         <img
           className="w-24 h-24 rounded-full mr-4"
-          src={``} // Placeholder avatar
+          src={`https://via.placeholder.com/150`} // Placeholder avatar
           alt="User Avatar"
         />
         <div>
@@ -95,7 +98,6 @@ const UserInfo = () => {
       <div className="mt-6 text-center">
         <button onClick={handleEdit} className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">Edit Profile</button>
       </div>
-
     </div>
   );
 };

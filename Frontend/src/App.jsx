@@ -41,7 +41,7 @@ export default function App() {
     {"path": "/donate", "element": <DonatePage/>},
     {"path": "/test", "element": <Combine/>},
     {"path": "/test2", "element": <UserInfo/>},
-    {"path": "/grassRooter/dashboard", "element": <GrassRooter/>},{"path": "/NGO/Dashboard", "element": <NGODashboard/>},
+    {"path": "/grassRooter", "element": <GrassRooter/>},{"path": "/NGO/Dashboard", "element": <NGODashboard/>},
     {"path": "/NGO/AllDonations", "element": <AllDonations/>},
     {"path": "/NGO/Sidebar", "element": <SideBarAdmin/>}
     

@@ -1,6 +1,6 @@
 import { Drawer, List, ListItem, ListItemText, Divider, Box, Typography } from '@mui/material';
 
-const SideNavGrassRooter = () => {
+const SideNavGrassRooter = ({func}) => {
     return (
         <Drawer
             variant="permanent"
@@ -27,10 +27,10 @@ const SideNavGrassRooter = () => {
                 <Divider sx={{ width: '80%', backgroundColor: 'white' }} />
                 <List>
                     <ListItem>
-                        <ListItemText primary="My Profile" />
+                        <button><ListItemText primary="My Profile" onClick={()=>{func("Profile")}}/></button>
                     </ListItem>
                     <ListItem>
-                        <ListItemText primary="Tasks" />
+                        <button><ListItemText primary="Tasks" onClick={()=>{func("Tasks")}}/></button>
                     </ListItem>
                 </List>
             </Box>

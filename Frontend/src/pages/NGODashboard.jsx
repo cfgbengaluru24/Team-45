@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Divider, IconButton } from '@mui/material';
@@ -27,7 +27,15 @@ const samplePendingRequests = [
 // Pending Requests Table Component
 const PendingRequestsTable = ({ onApprove, onReject }) => {
     const [pendingRequests, setPendingRequests] = useState(samplePendingRequests);
-
+    // useEffect(()=>{
+    //     axios.get('http://localhost:5000/api/schools/pendingRequests')
+    //     .then((response)=>{
+    //         setPendingRequests(response.data)
+    //     })
+    //     .catch((error)=>{
+    //         console.log(error)
+    //     })
+    // },[])
     return (
         <Box>
             <Typography variant="h6" mb={2}>Pending Requests</Typography>

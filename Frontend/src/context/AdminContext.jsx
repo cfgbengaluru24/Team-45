@@ -1,8 +1,11 @@
 import React, { createContext, useState, useContext } from 'react';
-
-const AdminContext = createContext();
+import Proptypes from 'prop-types';
+export const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
+  AdminProvider.propTypes = {
+    children: Proptypes.node.isRequired
+  }
   const [adminId, setAdminId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -13,4 +16,4 @@ export const AdminProvider = ({ children }) => {
   );
 };
 
-export const useAdminContext = () => useContext(AdminContext);
+// export const useAdminContext = () => useContext(AdminContext);

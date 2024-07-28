@@ -1,7 +1,7 @@
 // src/GrassRootWorkerRegister.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { useGrassRootWorkerContext } from '../context/GrassRootWorkerContext';
+import { GrassRootWorkerContext } from '../context/GrassRootWorkerContext';
 
 const GrassRootWorkerRegister = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +14,7 @@ const GrassRootWorkerRegister = () => {
     password: '',
   });
 
-  const { grassRootWorkerId, setGrassRootWorkerId } = useGrassRootWorkerContext();
+  const { grassRootWorkerId, setGrassRootWorkerId } = useContext(GrassRootWorkerContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });

@@ -52,7 +52,6 @@ export default function HistoryTable({ width, height }) {
 
   return (
     <div>
-      <SideNavDonor />
       <div
         className="ag-theme-quartz"
         style={{ height: "100vh", width: "85vw" }}

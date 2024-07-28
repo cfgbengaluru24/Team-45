@@ -1,8 +1,11 @@
 import React, { createContext, useState, useContext } from 'react';
-
-const DonorContext = createContext();
+import PropTypes from 'prop-types';
+export const DonorContext = createContext();
 
 export const DonorProvider = ({ children }) => {
+  DonorProvider.propTypes = {
+    children: PropTypes.node.isRequired
+  }
   const [donorId, setDonorId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -13,4 +16,10 @@ export const DonorProvider = ({ children }) => {
   );
 };
 
-export const useDonorContext = () => useContext(DonorContext);
+// export const useDonorContext = () => {
+//   const context = useContext(DonorContext);
+//   if (!context) {
+//     throw new Error('useDonorContext must be used within a DonorProvider');
+//   }
+//   return context;
+// }

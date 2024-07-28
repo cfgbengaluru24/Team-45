@@ -1,7 +1,7 @@
 // src/RegisterPageDonor.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { useDonorContext } from '../context/DonorContext';
+import { DonorContext } from '../context/DonorContext';
 
 const RegisterPageDonor = ({ role }) => {
   const [formData, setFormData] = useState({
@@ -14,7 +14,7 @@ const RegisterPageDonor = ({ role }) => {
     get_updates: null,
   });
 
-  const { donorId, setDonorId } = useDonorContext();
+  const { donorId, setDonorId } = useContext(DonorContext);
   
   const handleChange = (e) => {
     const { name, value, files } = e.target;
