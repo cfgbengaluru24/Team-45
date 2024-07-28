@@ -7,7 +7,228 @@ package database
 
 import (
 	"context"
+
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
+
+const adminGetSchools1 = `-- name: AdminGetSchools1 :many
+Select school_uuid,"name","location",email,phone from 
+schools INNER JOIN users ON users.id=school.id  where status=1
+`
+
+type AdminGetSchools1Row struct {
+	SchoolUuid uuid.UUID `json:"school_uuid"`
+	Name       string    `json:"name"`
+	Location   string    `json:"location"`
+	Email      string    `json:"email"`
+	Phone      string    `json:"phone"`
+}
+
+func (q *Queries) AdminGetSchools1(ctx context.Context) ([]AdminGetSchools1Row, error) {
+	rows, err := q.db.Query(ctx, adminGetSchools1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AdminGetSchools1Row
+	for rows.Next() {
+		var i AdminGetSchools1Row
+		if err := rows.Scan(
+			&i.SchoolUuid,
+			&i.Name,
+			&i.Location,
+			&i.Email,
+			&i.Phone,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const adminGetSchools3 = `-- name: AdminGetSchools3 :many
+Select school_uuid,"name","location",email,phone from 
+schools INNER JOIN users ON users.id=school.id  where status=3
+`
+
+type AdminGetSchools3Row struct {
+	SchoolUuid uuid.UUID `json:"school_uuid"`
+	Name       string    `json:"name"`
+	Location   string    `json:"location"`
+	Email      string    `json:"email"`
+	Phone      string    `json:"phone"`
+}
+
+func (q *Queries) AdminGetSchools3(ctx context.Context) ([]AdminGetSchools3Row, error) {
+	rows, err := q.db.Query(ctx, adminGetSchools3)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AdminGetSchools3Row
+	for rows.Next() {
+		var i AdminGetSchools3Row
+		if err := rows.Scan(
+			&i.SchoolUuid,
+			&i.Name,
+			&i.Location,
+			&i.Email,
+			&i.Phone,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const adminRequestSchools1 = `-- name: AdminRequestSchools1 :many
+Select schools.school_uuid,request_id,"name","location","type","details","cost","created_at" from 
+requests INNER JOIN schools ON requests.school_uuid=schools.school_uuid 
+INNER JOIN users ON schools.id=users.id where requests.status=1
+`
+
+type AdminRequestSchools1Row struct {
+	SchoolUuid uuid.UUID          `json:"school_uuid"`
+	RequestID  int64              `json:"request_id"`
+	Name       string             `json:"name"`
+	Location   string             `json:"location"`
+	Type       string             `json:"type"`
+	Details    *string            `json:"details"`
+	Cost       int64              `json:"cost"`
+	CreatedAt  pgtype.Timestamptz `json:"created_at"`
+}
+
+func (q *Queries) AdminRequestSchools1(ctx context.Context) ([]AdminRequestSchools1Row, error) {
+	rows, err := q.db.Query(ctx, adminRequestSchools1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AdminRequestSchools1Row
+	for rows.Next() {
+		var i AdminRequestSchools1Row
+		if err := rows.Scan(
+			&i.SchoolUuid,
+			&i.RequestID,
+			&i.Name,
+			&i.Location,
+			&i.Type,
+			&i.Details,
+			&i.Cost,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const adminRequestSchools3 = `-- name: AdminRequestSchools3 :many
+Select schools.school_uuid,request_id,"name","location","type","details","cost","created_at" from 
+requests INNER JOIN schools ON requests.school_uuid=schools.school_uuid 
+INNER JOIN users ON schools.id=users.id where requests.status=3
+`
+
+type AdminRequestSchools3Row struct {
+	SchoolUuid uuid.UUID          `json:"school_uuid"`
+	RequestID  int64              `json:"request_id"`
+	Name       string             `json:"name"`
+	Location   string             `json:"location"`
+	Type       string             `json:"type"`
+	Details    *string            `json:"details"`
+	Cost       int64              `json:"cost"`
+	CreatedAt  pgtype.Timestamptz `json:"created_at"`
+}
+
+func (q *Queries) AdminRequestSchools3(ctx context.Context) ([]AdminRequestSchools3Row, error) {
+	rows, err := q.db.Query(ctx, adminRequestSchools3)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AdminRequestSchools3Row
+	for rows.Next() {
+		var i AdminRequestSchools3Row
+		if err := rows.Scan(
+			&i.SchoolUuid,
+			&i.RequestID,
+			&i.Name,
+			&i.Location,
+			&i.Type,
+			&i.Details,
+			&i.Cost,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const assignGrassrootToRequest = `-- name: AssignGrassrootToRequest :exec
+UPDATE requests
+SET assigned_grassroot = $1 
+WHERE request_id = $2
+`
+
+type AssignGrassrootToRequestParams struct {
+	AssignedGrassroot uuid.UUID `json:"assigned_grassroot"`
+	RequestID         int64     `json:"request_id"`
+}
+
+func (q *Queries) AssignGrassrootToRequest(ctx context.Context, arg AssignGrassrootToRequestParams) error {
+	_, err := q.db.Exec(ctx, assignGrassrootToRequest, arg.AssignedGrassroot, arg.RequestID)
+	return err
+}
+
+const assignGrassrootToSchool = `-- name: AssignGrassrootToSchool :exec
+UPDATE schools
+SET assigned_grassroot = $1 
+WHERE school_uuid = $2
+`
+
+type AssignGrassrootToSchoolParams struct {
+	AssignedGrassroot pgtype.UUID `json:"assigned_grassroot"`
+	SchoolUuid        uuid.UUID   `json:"school_uuid"`
+}
+
+func (q *Queries) AssignGrassrootToSchool(ctx context.Context, arg AssignGrassrootToSchoolParams) error {
+	_, err := q.db.Exec(ctx, assignGrassrootToSchool, arg.AssignedGrassroot, arg.SchoolUuid)
+	return err
+}
+
+const createDonation = `-- name: CreateDonation :exec
+INSERT INTO donations (donor_uuid, amount, request_id)
+values ($1, $2, $3)
+`
+
+type CreateDonationParams struct {
+	DonorUuid uuid.UUID `json:"donor_uuid"`
+	Amount    int64     `json:"amount"`
+	RequestID *int64    `json:"request_id"`
+}
+
+func (q *Queries) CreateDonation(ctx context.Context, arg CreateDonationParams) error {
+	_, err := q.db.Exec(ctx, createDonation, arg.DonorUuid, arg.Amount, arg.RequestID)
+	return err
+}
 
 const getAllUsers = `-- name: GetAllUsers :many
 Select id, email, full_name, phone, role
@@ -37,6 +258,93 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]GetAllUsersRow, error) {
 			&i.FullName,
 			&i.Phone,
 			&i.Role,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const grassrootsGetRequests = `-- name: GrassrootsGetRequests :many
+Select schools.school_uuid,request_id,"name","location","type","details","cost","created_at"
+from requests
+INNER JOIN schools ON requests.school_uuid=schools.school_uuid 
+INNER JOIN users ON schools.id=users.id where requests.status=2 and requests.assigned_grassroot = $1
+`
+
+type GrassrootsGetRequestsRow struct {
+	SchoolUuid uuid.UUID          `json:"school_uuid"`
+	RequestID  int64              `json:"request_id"`
+	Name       string             `json:"name"`
+	Location   string             `json:"location"`
+	Type       string             `json:"type"`
+	Details    *string            `json:"details"`
+	Cost       int64              `json:"cost"`
+	CreatedAt  pgtype.Timestamptz `json:"created_at"`
+}
+
+func (q *Queries) GrassrootsGetRequests(ctx context.Context, assignedGrassroot uuid.UUID) ([]GrassrootsGetRequestsRow, error) {
+	rows, err := q.db.Query(ctx, grassrootsGetRequests, assignedGrassroot)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GrassrootsGetRequestsRow
+	for rows.Next() {
+		var i GrassrootsGetRequestsRow
+		if err := rows.Scan(
+			&i.SchoolUuid,
+			&i.RequestID,
+			&i.Name,
+			&i.Location,
+			&i.Type,
+			&i.Details,
+			&i.Cost,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const grassrootsGetSchools = `-- name: GrassrootsGetSchools :many
+Select school_uuid,"name","location",email,phone
+from schools INNER JOIN users ON users.id=school.id
+where status=2 and schools.assigned_grassroot = $1
+`
+
+type GrassrootsGetSchoolsRow struct {
+	SchoolUuid uuid.UUID `json:"school_uuid"`
+	Name       string    `json:"name"`
+	Location   string    `json:"location"`
+	Email      string    `json:"email"`
+	Phone      string    `json:"phone"`
+}
+
+func (q *Queries) GrassrootsGetSchools(ctx context.Context, assignedGrassroot pgtype.UUID) ([]GrassrootsGetSchoolsRow, error) {
+	rows, err := q.db.Query(ctx, grassrootsGetSchools, assignedGrassroot)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GrassrootsGetSchoolsRow
+	for rows.Next() {
+		var i GrassrootsGetSchoolsRow
+		if err := rows.Scan(
+			&i.SchoolUuid,
+			&i.Name,
+			&i.Location,
+			&i.Email,
+			&i.Phone,
 		); err != nil {
 			return nil, err
 		}
@@ -126,4 +434,64 @@ func (q *Queries) RegisterUser(ctx context.Context, arg RegisterUserParams) (Use
 		&i.PasswordHash,
 	)
 	return i, err
+}
+
+const updateRequestAfterDonation = `-- name: UpdateRequestAfterDonation :exec
+UPDATE requests
+SET donated = donated + $1, status = 6
+WHERE request_id = $2
+`
+
+type UpdateRequestAfterDonationParams struct {
+	Donated   int64 `json:"donated"`
+	RequestID int64 `json:"request_id"`
+}
+
+func (q *Queries) UpdateRequestAfterDonation(ctx context.Context, arg UpdateRequestAfterDonationParams) error {
+	_, err := q.db.Exec(ctx, updateRequestAfterDonation, arg.Donated, arg.RequestID)
+	return err
+}
+
+const updateRequestStatus = `-- name: UpdateRequestStatus :exec
+Update requests set status=$2 where request_id=$1
+`
+
+type UpdateRequestStatusParams struct {
+	RequestID int64 `json:"request_id"`
+	Status    int32 `json:"status"`
+}
+
+func (q *Queries) UpdateRequestStatus(ctx context.Context, arg UpdateRequestStatusParams) error {
+	_, err := q.db.Exec(ctx, updateRequestStatus, arg.RequestID, arg.Status)
+	return err
+}
+
+const updateSchoolStatus = `-- name: UpdateSchoolStatus :exec
+Update schools set status=$2 where school_uuid=$1
+`
+
+type UpdateSchoolStatusParams struct {
+	SchoolUuid uuid.UUID `json:"school_uuid"`
+	Status     int32     `json:"status"`
+}
+
+func (q *Queries) UpdateSchoolStatus(ctx context.Context, arg UpdateSchoolStatusParams) error {
+	_, err := q.db.Exec(ctx, updateSchoolStatus, arg.SchoolUuid, arg.Status)
+	return err
+}
+
+const updateTotalDonation = `-- name: UpdateTotalDonation :exec
+UPDATE donors
+SET donated = donated + $1
+WHERE donor_uuid = $2
+`
+
+type UpdateTotalDonationParams struct {
+	Donated   int64     `json:"donated"`
+	DonorUuid uuid.UUID `json:"donor_uuid"`
+}
+
+func (q *Queries) UpdateTotalDonation(ctx context.Context, arg UpdateTotalDonationParams) error {
+	_, err := q.db.Exec(ctx, updateTotalDonation, arg.Donated, arg.DonorUuid)
+	return err
 }
