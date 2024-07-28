@@ -70,7 +70,7 @@ const UserLoginPage = () => {
         </div>
         <div className="w-full md:w-1/2 p-8">
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="Logo" className="h-12" />
+            <img src='https://aspireandglee.com/wp-content/uploads/2014/02/aspireandglee_final.jpg?w=100' alt="Logo" className="h-12" />
           </div>
           <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
           <form onSubmit={handleSubmit}>
