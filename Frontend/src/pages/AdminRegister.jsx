@@ -1,8 +1,10 @@
 // src/AdminRegister.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAdminContext } from '../context/AdminContext';
 
 const AdminRegister = () => {
+  const { setAdminId, setIsLoggedIn } = useAdminContext();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -11,30 +13,30 @@ const AdminRegister = () => {
     password: '',
   });
 
-  const { adminId, setAdminId } = useState();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async () => {
-    const url = 'http://localhost:8080/v1/admin/reqister';
+    const url = 'http://localhost:8080/v1/admin/register';
     const headers = {
       'Content-Type': 'application/json',
     };
 
-    const d = {
+    const data = {
       "email": `${formData.email}`,
       "name": `${formData.name}`,
       "phone_number": `${formData.phone_number}`,
       "password": `${formData.password}`
     }
+
     try {
-      const response = await axios.post(url, d, { headers });
+      const response = await axios.post(url, data, { headers });
       console.log('Response:', response.data);
 
-      setAdminId(response.id);
+      setAdminId(response.data.id);
+      setIsLoggedIn(true);
     } catch (error) {
       console.error('Error:', error);
     }

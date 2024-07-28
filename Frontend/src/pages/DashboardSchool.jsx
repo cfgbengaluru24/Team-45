@@ -1,10 +1,30 @@
 // src/components/DashboardSchool.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import SubmitRequests from './SubmitRequests';
 import ViewRequests from './ViewRequests';
 
 const DashboardSchool = ({ SchoolName, schoolUUID }) => {
   const [choice, setChoice] = useState('');
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (choice) {
+        try {
+          const response = await axios.post('http://localhost:8080/v1/school/', {
+            schoolUUID: schoolUUID,
+            choice: choice
+          });
+          setData(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [choice, schoolUUID]);
 
   return (
     <div className="container mx-auto p-4 max-w-lg">
@@ -24,9 +44,9 @@ const DashboardSchool = ({ SchoolName, schoolUUID }) => {
       </div>
 
       {choice === 'viewRequests' ? (
-        <ViewRequests schoolUUID={schoolUUID} />
+        <ViewRequests schoolUUID={schoolUUID} data={data} />
       ) : choice === 'submitRequests' ? (
-        <SubmitRequests SchoolName={SchoolName} />
+        <SubmitRequests SchoolName={SchoolName} data={data} />
       ) : (
         <p className="text-center text-gray-700">Please select an option.</p>
       )}
