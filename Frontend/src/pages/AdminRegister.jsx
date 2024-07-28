@@ -1,5 +1,5 @@
 // src/AdminRegister.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useAdminContext } from '../context/AdminContext';
 import { useNavigate } from 'react-router-dom';

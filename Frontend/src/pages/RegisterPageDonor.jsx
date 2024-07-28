@@ -1,5 +1,5 @@
 // src/RegisterPageDonor.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useDonorContext } from '../context/DonorContext';
 import { useNavigate } from 'react-router-dom';

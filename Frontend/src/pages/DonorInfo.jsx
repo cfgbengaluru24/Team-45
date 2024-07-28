@@ -36,26 +36,28 @@ const UserInfo = () => {
       }
     };
 
-    fetchUserData();
-  }, []);
+    if (donorId) {
+      fetchUserData();
+    }
+  }, []); // Add donorId as a dependency
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = (updatedUser) => {
-    setUser({
-      ...user,
+    setUser((prevUser) => ({
+      ...prevUser,
       ...updatedUser,
-      company: { ...user.company, name: updatedUser.company },
+      company: { ...prevUser.company, name: updatedUser.company },
       address: {
-        ...user.address,
+        ...prevUser.address,
         suite: updatedUser.address.split(',')[0].trim(),
         street: updatedUser.address.split(',')[1].trim(),
         city: updatedUser.address.split(',')[2].trim(),
         zipcode: updatedUser.address.split(',')[3].trim(),
       },
-    });
+    }));
     setIsEditing(false);
   };
 

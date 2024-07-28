@@ -10,7 +10,7 @@ export default function Combine() {
   function handleChange(mode){
     setMode(mode);
     console.log(mode);
-  };
+  }
   return (
     <div className="flex flex-row w-screen items-center space-x-2">
       <div className="w-fit">
@@ -19,7 +19,7 @@ export default function Combine() {
       <div className="w-full">
         {mode === "Profile" && <UserInfo />}
         {mode === "Donate" && <AgGrid width="w-3/4" />}
-        {mode === "DonateHistory" && <HistoryTable width="w-3/4-"/>}
+        {mode === "DonateHistory" && <HistoryTable width="w-3/4"/>}
       </div>
     </div>
   );
