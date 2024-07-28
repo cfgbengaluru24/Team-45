@@ -31,12 +31,20 @@ type Grassroot struct {
 	Location      string    `json:"location"`
 }
 
+type Record struct {
+	RecordID  int64              `json:"record_id"`
+	Docname   string             `json:"docname"`
+	Doc       []byte             `json:"doc"`
+	RequestID int64              `json:"request_id"`
+	CreatedAt pgtype.Timestamptz `json:"created_at"`
+}
+
 type Request struct {
 	RequestID         int64              `json:"request_id"`
 	SchoolUuid        uuid.UUID          `json:"school_uuid"`
 	Type              string             `json:"type"`
 	Details           *string            `json:"details"`
-	AssignedGrassroot uuid.UUID          `json:"assigned_grassroot"`
+	AssignedGrassroot pgtype.UUID        `json:"assigned_grassroot"`
 	Status            int32              `json:"status"`
 	Cost              int64              `json:"cost"`
 	Donated           int64              `json:"donated"`

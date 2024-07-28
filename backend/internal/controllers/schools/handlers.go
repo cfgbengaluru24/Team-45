@@ -122,3 +122,29 @@ func (s *SchoolHandler) NewRequest(c *gin.Context) {
 		StatusCode: http.StatusOK,
 	})
 }
+
+func (s *SchoolHandler) GetRequests(c *gin.Context) {
+	var input struct {
+		SchoolUUID uuid.UUID `json:"school_uuid" binding:"required,uuid"`
+	}
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		merrors.Validation(c, err.Error())
+		return
+	}
+
+	q := database.New(s.db)
+	reqs, err := q.GetRequestsForSchool(c, input.SchoolUUID)
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, utils.BaseResponse{
+		Success:    true,
+		Message:    "requests got successfully",
+		Data:       reqs,
+		StatusCode: http.StatusOK,
+	})
+}

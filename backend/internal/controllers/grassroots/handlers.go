@@ -115,7 +115,7 @@ func (g *GrassrootHandler) GetSchools(c *gin.Context) {
 }
 func (g *GrassrootHandler) GetRequests(c *gin.Context) {
 	var input struct {
-		GrassrootUUID uuid.UUID `json:"grassroot_uuid" binding:"required"`
+		GrassrootUUID pgtype.UUID `json:"grassroot_uuid" binding:"required"`
 	}
 	err := c.ShouldBindJSON(&input)
 	if err != nil {

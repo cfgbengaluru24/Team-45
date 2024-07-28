@@ -47,6 +47,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	schools := v1.Group("/schools")
 	schools.POST("/register", s.SchoolHandler.Register)
 	schools.POST("/requests", s.SchoolHandler.NewRequest)
+	schools.GET("/requests", s.SchoolHandler.GetRequests)
 
 	v1.POST("/login")
 
