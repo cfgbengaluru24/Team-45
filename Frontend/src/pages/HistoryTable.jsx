@@ -23,28 +23,16 @@ export default function HistoryTable({width, height}) {
     { Sno: "3", Description: "5 Students from class 2 were paid 2 months of their page", Type: "Infra", Amount: 76000, Date: "25/01/2024" },
   ]);
 
-  // Column Definitions: Defines the columns to be displayed.
   const [colDefs, setColDefs] = useState([
     { field: "Sno" },
     { field: "Description", flex: 2 },
     { field: "Type", filter: true },
-    // { field: "Receipt ID", filter: true },
     { field: "Amount" },
     { field: "Date"},
   ]);
 
-  // useEffect(() => {
-  //     const data = axios.get("/api/getData");
-
-  //     setColDefs(data.map({
-  //         Sno: data.number,
-  //         Type: data.type,
-  //         Amount: data.Amount,
-  //     }))
-  // }, [])
 
   return (
-    // wrapping container with theme & size
     <>
       <div>
         <div

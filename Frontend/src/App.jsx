@@ -30,7 +30,7 @@ export default function App() {
     {"path": "/grassRoot/register", "element": <GrassRootWorkerRegister/>},
     {"path": "/school/register", "element": <RegisterPageSchool/>},
     {"path": "/donor/register", "element": <RegisterPageDonor/>},
-    {"path": "/dashboard/school", "element": <DashboardSchool/>},
+    {"path": "/school/dashboard", "element": <DashboardSchool/>},
     {"path": "/viewRequest", "element": <ViewRequests/>},
     {"path": "/submitReques", "element": <SubmitRequest/>},
     {"path": "/grid", "element": <AgGrid/>},
