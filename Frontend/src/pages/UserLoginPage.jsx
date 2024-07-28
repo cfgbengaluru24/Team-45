@@ -1,12 +1,11 @@
 import React, { useState,useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
+import { useAdminContext } from '../context/AdminContext';
+import { useGrassRootWorkerContext } from '../context/GrassRootWorkerContext';
+import { useDonorContext } from '../context/DonorContext';
+import { useSchoolContext } from '../context/SchoolContext';
 import LoginPageImg from "../../src/assets/images/loginPageImg.jpg";
-import { AdminContext } from "../context/AdminContext";
-import { DonorContext } from "../context/DonorContext";
-import { SchoolContext } from "../context/SchoolContext";
-import { GrassRootWorkerContext } from "../context/GrassRootWorkerContext";
 
 const UserLoginPage = () => {
   const [credentials, setCredentials] = useState({
@@ -14,12 +13,12 @@ const UserLoginPage = () => {
     password: "",
     userType: "admin",
   });
-  //context
-  const { adminId, setAdminId } = useContext(AdminContext);
-  const { grassRootWorkerId, setGrassRootWorkerId } =
-    useContext(GrassRootWorkerContext);
-  const { donorId, setDonorId } = useContext(DonorContext);
-  const { schoolId, setSchoolId } = useContext(SchoolContext);
+
+  // context
+  const { adminId, setAdminId } = useAdminContext();
+  const { grassRootWorkerId, setGrassRootWorkerId } = useGrassRootWorkerContext();
+  const { donorId, setDonorId } = useDonorContext();
+  const { schoolId, setSchoolId } = useSchoolContext();
 
   const navigate = useNavigate();
 
@@ -132,19 +131,19 @@ const UserLoginPage = () => {
                 to="/school/register"
                 className="text-blue-500 hover:text-blue-700"
               >
-                Schools
+                School
               </Link>
               <Link
-                to="/grassroot/register"
+                to="/grassRoot/register"
                 className="text-blue-500 hover:text-blue-700"
               >
-                Grassroot worker
+                Grassroot Worker
               </Link>
               <Link
                 to="/donor/register"
                 className="text-blue-500 hover:text-blue-700"
               >
-                Donors
+                Donor
               </Link>
             </div>
           </div>

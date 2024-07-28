@@ -9,12 +9,11 @@ const UserInfo = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const { donorId } = useContext(DonorContext);  // Ensure correct usage of useContext
-
+  const {donorId, setDonorId} = useDonorContext();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/v1/donors/donations/${donorId}`); // Replace with your API endpoint
+        const response = await axios.get(`http://localhost:8080/v1/donors/donations/8926cab8-a6b4-4e6b-beb4-475f5fcd905e`); // Replace with your API endpoint
         setUser(response.data);
         setLoading(false);
       } catch (error) {

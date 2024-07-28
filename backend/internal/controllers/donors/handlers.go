@@ -109,9 +109,9 @@ func (d *DonorHandler) GetRequestsHandler(c *gin.Context) {
 
 func (d *DonorHandler) GetDonations(c *gin.Context) {
 	var input struct {
-		DonorUUID uuid.UUID `json:"donor_uuid" binding:"required,uuid"`
+		DonorUUID uuid.UUID `uri:"id" binding:"required,uuid"`
 	}
-	err := c.ShouldBindJSON(&input)
+	err := c.ShouldBindUri(&input)
 	if err != nil {
 		merrors.Validation(c, err.Error())
 		return
@@ -134,4 +134,61 @@ func (d *DonorHandler) GetDonations(c *gin.Context) {
 		Data:       map[string][]database.GetForDonorRow{"donations": donations},
 		StatusCode: http.StatusOK,
 	})
+}
+
+func (d *DonorHandler) Donate(c *gin.Context) {
+	var input struct {
+		DonorUUID uuid.UUID `json:"donor_uuid" binding:"required"`
+		RequestID int64     `json:"request_id" binding:"required"`
+		Amount    int64     `json:"amount" binding:"required"`
+	}
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		merrors.Validation(c, err.Error())
+		return
+	}
+
+	tx, err := d.db.Begin(c)
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+	defer tx.Rollback(c)
+
+	qtx := database.New(d.db).WithTx(tx)
+	err = qtx.CreateDonation(c, database.CreateDonationParams{
+		DonorUuid: input.DonorUUID,
+		RequestID: &input.RequestID,
+		Amount:    input.Amount,
+	})
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	err = qtx.UpdateTotalDonation(c, database.UpdateTotalDonationParams{
+		DonorUuid: input.DonorUUID,
+		Donated:   input.Amount,
+	})
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	err = qtx.UpdateRequestAfterDonation(c, database.UpdateRequestAfterDonationParams{
+		RequestID: input.RequestID,
+		Donated:   input.Amount,
+	})
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
+	err = tx.Commit(c)
+	if err != nil {
+		merrors.InternalServer(c, err.Error())
+		return
+	}
+
 }

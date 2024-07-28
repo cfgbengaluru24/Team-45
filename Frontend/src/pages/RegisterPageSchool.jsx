@@ -40,10 +40,19 @@ const RegisterPageSchool = ({ role }) => {
     data.append('verifiedGrassroot', formData.verifiedGrassroot);
     data.append('document', formData.document);
 
+    const d = {
+      "email" : `${formData.email}`,
+      "name" : `${formData.name}`,
+      "phone_number" : `${formData.phone}`,
+      "password" : `${formData.password}`,
+      "school_name" : `${formData.school_name}`,
+      "city": `${formData.location}`
+    }
+
     try {
-      const response = await axios.post('/api/register/school', data, {
+      const response = await axios.post('http://localhost:8080/v1/schools/register', d, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
       console.log(response.data);

@@ -1,25 +1,59 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import logo from "../../src/assets/images/loginPageImg.jpg"; // Replace with your logo path
+import { Link as ScrollLink } from "react-scroll";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
+let image = [
+  'https://aspireandglee.com/wp-content/uploads/2021/07/nityaberia-29.jpeg',
+  'https://aspireandglee.com/wp-content/uploads/2021/07/nityaberia-27.jpg?w=1024',
+  'https://aspireandglee.com/wp-content/uploads/2021/07/namkhana-19.jpeg'
+];
+
 const HomePage = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const navigate = useNavigate();
+
+  const handleLogClick = () => {
+    navigate('/user/login');
+  };
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log(form);
+    // You can send the form data to the backend or an email service here
+  };
 
   return (
     <div className="bg-gray-100 text-gray-900">
       {/* Header */}
       <header className="bg-white shadow-md py-4">
         <div className="container mx-auto flex justify-between items-center px-6">
+        
           <div className="flex items-center">
-            <img src={logo} alt="Logo" className="h-10 w-10" />
+            <img src={'https://aspireandglee.com/wp-content/uploads/2014/02/aspireandglee_final.jpg?w=100'} alt="Logo" className="h-10 w-10" />
           </div>
+          <h1 className="text-4xl font-bold" style={{ marginLeft: '420px', marginRight: 'auto' }}>Aspire and Glee</h1>
           <nav className="space-x-6">
             <NavLink
               exact
@@ -31,55 +65,34 @@ const HomePage = () => {
             >
               Home
             </NavLink>
-            <NavLink
-              to="/about"
-              style={({ isActive }) => ({
-                color: isActive ? "blue" : "gray",
-              })}
-              className="hover:text-gray-700"
+            <ScrollLink
+              to="about"
+              smooth={true}
+              duration={500}
+              className="cursor-pointer hover:text-gray-700"
+              activeClass="text-blue-500"
             >
               About Us
-            </NavLink>
-            <NavLink
-              to="/projects"
-              style={({ isActive }) => ({
-                color: isActive ? "blue" : "gray",
-              })}
-              className="hover:text-gray-700"
+            </ScrollLink>
+            <ScrollLink
+              to="projects"
+              smooth={true}
+              duration={500}
+              className="cursor-pointer hover:text-gray-700"
+              activeClass="text-blue-500"
             >
               Projects
-            </NavLink>
-            <NavLink
-              to="/events"
-              style={({ isActive }) => ({
-                color: isActive ? "blue" : "gray",
-              })}
-              className="hover:text-gray-700"
-            >
-              Events
-            </NavLink>
-            <NavLink
-              to="/get-involved"
-              style={({ isActive }) => ({
-                color: isActive ? "blue" : "gray",
-              })}
-              className="hover:text-gray-700"
-            >
-              Get Involved
-            </NavLink>
-            <NavLink
-              to="/contact"
-              style={({ isActive }) => ({
-                color: isActive ? "blue" : "gray",
-              })}
-              className="hover:text-gray-700"
+            </ScrollLink>
+            <ScrollLink
+              to="contact"
+              smooth={true}
+              duration={500}
+              className="cursor-pointer hover:text-gray-700"
+              activeClass="text-blue-500"
             >
               Contact Us
-            </NavLink>
+            </ScrollLink>
           </nav>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">
-            Donate Now
-          </button>
         </div>
       </header>
 
@@ -88,7 +101,8 @@ const HomePage = () => {
         id="home"
         className="relative bg-cover bg-center h-screen"
         style={{
-          backgroundImage: "url(https://via.placeholder.com/1920x1080)",
+          backgroundImage:
+            "url(https://aspireandglee.com/wp-content/uploads/2021/11/262010452_2003073386534288_552666063344629341_n.jpg)",
         }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -110,22 +124,12 @@ const HomePage = () => {
             Join us in making a difference
           </motion.p>
           <div className="mt-6 space-x-4">
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1 }}
-              className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+              onClick={handleLogClick}
             >
-              Learn More
-            </motion.button>
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.5 }}
-              className="bg-green-500 py-2 px-4 rounded hover:bg-green-600 transition duration-300"
-            >
-              Donate Now
-            </motion.button>
+              Log In / Sign Up
+            </button>
           </div>
         </div>
       </section>
@@ -160,7 +164,7 @@ const HomePage = () => {
             className="mt-8 flex justify-center"
           >
             <img
-              src="https://via.placeholder.com/600x400"
+              src="https://aspireandglee.com/wp-content/uploads/2021/02/jeevan-shishu-7.jpg"
               alt="About Us"
               className="rounded-lg shadow-lg"
             />
@@ -174,38 +178,6 @@ const HomePage = () => {
           <h2 className="text-3xl font-bold text-center">Our Projects</h2>
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Dummy project cards */}
-            {Array.from({ length: 6 }).map((_, index) => (
-              <motion.div
-                key={index}
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-                whileHover={{ scale: 1.05 }}
-                className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300"
-              >
-                <img
-                  src="https://via.placeholder.com/400x300"
-                  alt={`Project ${index + 1}`}
-                  className="rounded-lg mb-4"
-                />
-                <h3 className="text-2xl font-bold mb-2">
-                  Project Title {index + 1}
-                </h3>
-                <p className="text-gray-700">
-                  Short description of the project.
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Events Section */}
-      <section id="events" className="py-16">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center">Upcoming Events</h2>
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Dummy event cards */}
             {Array.from({ length: 3 }).map((_, index) => (
               <motion.div
                 key={index}
@@ -215,33 +187,65 @@ const HomePage = () => {
                 whileHover={{ scale: 1.05 }}
                 className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300"
               >
-                <h3 className="text-2xl font-bold mb-2">
-                  Event Title {index + 1}
-                </h3>
-                <p className="text-gray-700 mb-2">Date: 2024-07-27</p>
-                <p className="text-gray-700">Brief details of the event.</p>
+                <img
+                  src={image[index]}
+                  alt={`Project ${index + 1}`}
+                  className="rounded-lg mb-4"
+                />
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Get Involved Section */}
-      <section id="get-involved" className="py-16 bg-gray-200">
+      {/* Contact Us Section */}
+      <section id="contact" className="py-16">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center">Get Involved</h2>
-          <p className="mt-4 text-center text-gray-700">
-            Learn how you can contribute to our cause through volunteering,
-            donations, or partnerships.
-          </p>
-          <div className="mt-8 flex justify-center space-x-4">
-            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">
-              Volunteer Now
+          <h2 className="text-3xl font-bold text-center">Contact Us</h2>
+          <form onSubmit={handleSubmit} className="mt-8 max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-700">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-700">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="message" className="block text-gray-700">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="4"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Send Message
             </button>
-            <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300">
-              Partner With Us
-            </button>
-          </div>
+          </form>
         </div>
       </section>
 
