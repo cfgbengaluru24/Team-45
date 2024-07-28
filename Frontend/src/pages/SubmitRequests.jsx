@@ -37,7 +37,7 @@ const SubmitRequest = ({ SchoolName }) => {
         "created_at": `${Date.now()}`
 
       }
-      const response = await axios.post('http://localhost:8080/v1/schoolss/requests', d, {
+      const response = await axios.post('http://localhost:8080/v1/schools/requests', d, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

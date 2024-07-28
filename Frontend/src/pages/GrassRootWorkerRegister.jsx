@@ -1,7 +1,8 @@
 // src/GrassRootWorkerRegister.js
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { GrassRootWorkerContext } from '../context/GrassRootWorkerContext';
+import { useGrassRootWorkerContext } from '../context/GrassRootWorkerContext';
+import { useNavigate } from 'react-router-dom';
 
 const GrassRootWorkerRegister = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,8 @@ const GrassRootWorkerRegister = () => {
     region: '',
     password: '',
   });
-
-  const { grassRootWorkerId, setGrassRootWorkerId } = useContext(GrassRootWorkerContext);
+  const navigate = useNavigate();
+  const { grassRootWorkerId, setGrassRootWorkerId } = useGrassRootWorkerContext();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -36,6 +37,7 @@ const GrassRootWorkerRegister = () => {
       const response = await axios.post(url, d, { headers });
       console.log('Response:', response.data);
       setGrassRootWorkerId(response.id);
+      navigate('/grassRooter/dashboard');
     } catch (error) {
       console.error('Error:', error);
     }

@@ -34,7 +34,7 @@ const UserLoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/...", // Replace with your actual endpoint
+        "http://localhost:8000/login", // Replace with your actual endpoint
         credentials
       );
       console.log(response.data);

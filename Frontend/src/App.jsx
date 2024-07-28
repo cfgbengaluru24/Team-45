@@ -1,10 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserLoginPage from './pages/UserLoginPage';
-import UserRegisterPage from './pages/AdminRegisterpage.jsx';
 import HomePage from './pages/HomePage';
 import AdminRegister from './pages/AdminRegister';
 import GrassRootWorkerRegister from './pages/GrassRootWorkerRegister';
-import DashBoard from './pages/DashBoard';
 import AgGrid from './pages/AgGid';
 // import SideNavDonor from './pages/SideNavDonor';
 import DonatePage from './pages/DonatePage';
@@ -24,17 +22,14 @@ import { AdminProvider } from './context/AdminContext.jsx';
 import GrassRooter from './pages/GrassRooter';import NGODashboard from './pages/NGODashboard';
 import AllDonations from './pages/AllDonations';
 import SideBarAdmin from './pages/SideBarAdmin'
-import AdminRegisterPage from "./pages/AdminRegisterpage.jsx";
 export default function App() {
   const router = createBrowserRouter([
     {"path": "/", "element": <HomePage/>},
     {"path": "/user/login", "element": <UserLoginPage/>},
-    {"path": "/user/register", "element": <UserRegisterPage/>},
     {"path": "/admin/register", "element": <AdminRegister/>},
     {"path": "/grassRoot/register", "element": <GrassRootWorkerRegister/>},
     {"path": "/school/register", "element": <RegisterPageSchool/>},
     {"path": "/donor/register", "element": <RegisterPageDonor/>},
-    {"path": "/dashboard", "element": <DashBoard/>},
     {"path": "/dashboard/school", "element": <DashboardSchool/>},
     {"path": "/viewRequest", "element": <ViewRequests/>},
     {"path": "/submitReques", "element": <SubmitRequest/>},
