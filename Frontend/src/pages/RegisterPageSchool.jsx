@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { SchoolContext } from '../context/SchoolContext';
+import { useSchoolContext } from '../context/SchoolContext';
 
 const RegisterPageSchool = ({ role }) => {
   const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ const RegisterPageSchool = ({ role }) => {
     verifiedGrassroot: 0,
   });
 
-  const { schoolId, setSchoolId } = useContext(SchoolContext);
+  const { schoolId, setSchoolId } = useSchoolContext();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

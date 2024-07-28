@@ -1,32 +1,31 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import EditProfile from './EditGrassRooterProfile';
-import { DonorContext } from '../context/DonorContext';
 
 const UserInfo = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState({name: "test", username: "test", email: "test", phone: "test", address: {suite: "test", street: "test", city: "test", zipcode: "test"}});
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
 
-    const { donorId } = useContext(DonorContext);
+    // const { donorId } = useGrassRooterContext();
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/v1/donors/donations/${donorId}`);
-                setUser(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         try {
+    //             const response = await axios.get(`http://localhost:8080/v1/donors/donations/${donorId}`);
+    //             setUser(response.data);
+    //             setLoading(false);
+    //         } catch (error) {
+    //             setError(error);
+    //             setLoading(false);
+    //         }
+    //     };
 
-        if (donorId) {
-            fetchUserData();
-        }
-    }, [donorId]);
+    //     if (donorId) {
+    //         fetchUserData();
+    //     }
+    // }, [donorId]);
 
     const handleEdit = () => {
         setIsEditing(true);

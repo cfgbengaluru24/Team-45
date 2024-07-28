@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import EditProfile from './EditProfile';
-import { DonorContext } from '../context/DonorContext';
+import { useDonorContext } from '../context/DonorContext';
 
 const UserInfo = () => {
   const [user, setUser] = useState(null);
