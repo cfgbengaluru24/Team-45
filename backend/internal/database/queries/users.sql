@@ -57,6 +57,24 @@ Update schools set status=$2 where school_uuid=$1;
 -- name: GrassrootsRequestVerify :exec
 Update requests set status=$2 where school_uuid=$1;
 
+-- name: DocInsert :exec
+Insert into doctable values ($1,$2,$3,$4);
+
+-- name: DocGetSchool :one
+select doc,doc_name,created_at from doctable where request_id IN (
+    select request_id from requests where requests.schooluuid=$1
+)
+
+-- name: DocGetStudent :one
+select doc,doc_name,created_at from doctable where request_id IN (
+    select request_id from donations where donations.donation_id=$1
+)
+
+-- name: DocGetGrassroots :one
+select doc,doc_name,created_at from doctable where request_id IN (
+    select request_id from requests where requests.schooluuid=$1 AND requests.assigned_grassroot=$2
+)
+
 
 
 
