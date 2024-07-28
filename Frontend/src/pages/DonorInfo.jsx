@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import EditProfile from './EditProfile';
+import { useDonorContext } from '../context/DonorContext';
 
 const UserInfo = () => {
   const [user, setUser] = useState(null);
@@ -8,10 +9,11 @@ const UserInfo = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [donorId, setDonorId] = useDonorContext();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users/1'); // Replace with your API endpoint
+        const response = await axios.get(`http://localhost:8080/v1/donors/donations/${donorId}`); // Replace with your API endpoint
         setUser(response.data);
         setLoading(false);
       } catch (error) {

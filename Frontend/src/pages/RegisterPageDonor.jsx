@@ -34,13 +34,30 @@ const RegisterPageDonor = ({ role }) => {
     data.append('anonymous', formData.anonymous);
     data.append('get_updates', formData.get_updates);
 
+    const d = {
+      "email":formData.email,
+      "name":formData.full_name,
+      "phone_number": formData.phone,
+      "password": formData.password,
+      "anonymous": formData.anonymous === "yes" ? true : false,
+      "get_reports": formData.get_updates === "yes" ? true : false
+    }
+    console.log(d);
+  //   {
+  //     "email":"",
+  //     "name":"kahc",
+  //     "phone_number": "",
+  //     "password":""
+  // }
+
     try {
-      const response = await axios.post('/api/register/donor', data, {
+      const response = await axios.post('http://localhost:8080/v1/donors/register', data, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'json',
         },
       });
       console.log(response.data);
+
       setDonorId(response.id);
       // alert('Registration successful!');
     } catch (error) {

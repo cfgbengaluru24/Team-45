@@ -9,12 +9,18 @@ import AgGrid from './pages/AgGid';
 // import SideNavDonor from './pages/SideNavDonor';
 import DonatePage from './pages/DonatePage';
 import Combine from './pages/Combine';
-import UserInfo from './pages/UserInfo';
+import UserInfo from './pages/DonorInfo.jsx';
 import RegisterPageSchool from './pages/RegisterPageSchool.jsx';
 import RegisterPageDonor from './pages/RegisterPageDonor.jsx';
 import DashboardSchool from './pages/DashboardSchool.jsx';
 import SubmitRequest from './pages/SubmitRequests.jsx';
 import ViewRequests from './pages/ViewRequests.jsx';
+import { DonorProvider } from './context/DonorContext.jsx';
+import { GrassRootWorkerProvider } from './context/GrassRootWorkerContext.jsx';
+import { SchoolProvider } from './context/SchoolContext.jsx';
+import { AdminProvider } from './context/AdminContext.jsx';
+
+
 import GrassRooter from './pages/GrassRooter';import NGODashboard from './pages/NGODashboard';
 import AllDonations from './pages/AllDonations';
 import SideBarAdmin from './pages/SideBarAdmin'
@@ -41,6 +47,15 @@ export default function App() {
     
   ])
   return (
-    <RouterProvider router={router}/>
+    <DonorProvider>
+      <GrassRootWorkerProvider>
+        <SchoolProvider>
+          <AdminProvider>
+             <RouterProvider router={router}/>
+          </AdminProvider>
+        </SchoolProvider>
+      </GrassRootWorkerProvider>
+    </DonorProvider>
+
   )
 }

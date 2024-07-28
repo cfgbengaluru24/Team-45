@@ -12,6 +12,7 @@ import (
 
 func (s *Server) RegisterRoutes() http.Handler {
 	r := gin.Default()
+	r.Use(CORSMiddleware())
 
 	r.GET("/", s.HelloWorldHandler)
 
@@ -21,26 +22,27 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	admin := v1.Group("/admin")
 	admin.POST("/register", s.AdminHandler.Register)
-	admin.GET("/schools")
-	admin.POST("/schools/assign")
-	admin.POST("/schools/verify")
-	admin.GET("/requests")
-	admin.POST("/requests/assign")
-	admin.POST("/requests/verify")
+	admin.GET("/schools", s.AdminHandler.GetSchools)
+	admin.POST("/schools/assign", s.AdminHandler.AssignSchool)
+	admin.POST("/schools/verify", s.AdminHandler.VerifySchool)
+	admin.GET("/requests", s.AdminHandler.GetRequests)
+	admin.POST("/requests/assign", s.AdminHandler.AssignRequest)
+	admin.POST("/requests/verify", s.AdminHandler.VerifyRequest)
 
 	donors := v1.Group("/donors")
 	donors.POST("/register", s.DonorHandler.Register)
 	donors.GET("/requests", s.DonorHandler.GetRequestsHandler)
 	donors.GET("/requests/:id")
-	donors.POST("/donate/:id")
-	donors.GET("/donations", s.DonorHandler.GetDonations)
+	donors.POST("/donate/:id", s.DonorHandler.Donate)
+	donors.GET("/donations/:id", s.DonorHandler.GetDonations)
+	// make url parameters
 
 	grassroots := v1.Group("/grassroots")
 	grassroots.POST("/register", s.GrassrootHandler.Register)
-	grassroots.GET("/schools")
-	grassroots.POST("/schools/verify")
-	grassroots.GET("/requests")
-	grassroots.POST("/requests/verify")
+	grassroots.GET("/schools", s.GrassrootHandler.GetSchools)
+	grassroots.POST("/schools/verify", s.GrassrootHandler.VerifySchool)
+	grassroots.GET("/requests", s.GrassrootHandler.GetRequests)
+	grassroots.POST("/requests/verify", s.GrassrootHandler.VerifyRequest)
 
 	schools := v1.Group("/schools")
 	schools.POST("/register", s.SchoolHandler.Register)
@@ -78,4 +80,20 @@ func (s *Server) healthHandler(c *gin.Context) {
 	stats["status"] = "up"
 	stats["message"] = "It's healthy"
 	c.JSON(http.StatusOK, stats)
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

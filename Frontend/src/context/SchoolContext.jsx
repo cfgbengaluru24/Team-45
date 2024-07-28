@@ -1,7 +1,9 @@
 import React, { createContext, useState, useContext } from 'react';
 
+// Create a context
 const SchoolContext = createContext();
 
+// Create a provider component
 export const SchoolProvider = ({ children }) => {
   const [schoolId, setSchoolId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,4 +15,10 @@ export const SchoolProvider = ({ children }) => {
   );
 };
 
-export const useSchoolContext = () => useContext(SchoolContext);
+export const useSchoolContext = () => {
+  const context = useContext(SchoolContext);
+  if (!context) {
+    throw new Error('useSchoolContext must be used within a SchoolProvider');
+  }
+  return context;
+};

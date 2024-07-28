@@ -3,7 +3,7 @@ CREATE TABLE if not exists public.requests (
 	school_uuid uuid NOT NULL,
 	"type" text NOT NULL,
 	details text NULL,
-	assigned_grassroot uuid NOT NULL,
+	assigned_grassroot uuid,
 	status int4 NOT NULL DEFAULT 1,
 	"cost" int8 NOT NULL,
 	donated int8 NOT NULL DEFAULT 0,
