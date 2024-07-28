@@ -19,13 +19,19 @@ const AdminRegister = () => {
   };
 
   const handleSubmit = async () => {
-    const url = 'https://your-api-route.com/register';
+    const url = 'http://localhost:8080/v1/admin/reqister';
     const headers = {
       'Content-Type': 'application/json',
     };
 
+    const d = {
+      "email": `${formData.email}`,
+      "name": `${formData.name}`,
+      "phone_number": `${formData.phone_number}`,
+      "password": `${formData.password}`
+    }
     try {
-      const response = await axios.post(url, formData, { headers });
+      const response = await axios.post(url, d, { headers });
       console.log('Response:', response.data);
 
       setAdminId(response.id);

@@ -21,13 +21,19 @@ const GrassRootWorkerRegister = () => {
   };
 
   const handleSubmit = async () => {
-    const url = 'https://your-api-route.com/register'; // Replace with your API endpoint
+    const url = 'http://localhost:8080/v1/grassroots/register'; // Replace with your API endpoint
     const headers = {
       'Content-Type': 'application/json',
     };
-
+    const d = {
+      "email" : `${formData.email}`,
+      "name" : `${formData.name}`,
+      "phone_number" : `${formData.phoneNumber}`,
+      "password": `${formData.password}`,
+      "city": `${formData.region}` 
+    }
     try {
-      const response = await axios.post(url, formData, { headers });
+      const response = await axios.post(url, d, { headers });
       console.log('Response:', response.data);
       setGrassRootWorkerId(response.id);
     } catch (error) {

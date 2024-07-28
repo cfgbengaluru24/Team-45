@@ -8,7 +8,7 @@ const ViewRequests = ({ schoolUUID }) => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('/api/get-requests');
+        const response = await axios.get('http://localhost:8080/v1/admin/requests');
         // Filter requests by school UUID
         const schoolRequests = response.data.filter(request => request.school_uuid === schoolUUID);
         setRequests(schoolRequests);

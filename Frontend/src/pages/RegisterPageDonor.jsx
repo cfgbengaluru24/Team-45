@@ -35,10 +35,10 @@ const RegisterPageDonor = ({ role }) => {
     data.append('get_updates', formData.get_updates);
 
     const d = {
-      "email":formData.email,
-      "name":formData.full_name,
-      "phone_number": formData.phone,
-      "password": formData.password,
+      "email":`${formData.email}`,
+      "name":`${formData.name}`,
+      "phone_number": `${formData.phone}`,
+      "password": `${formData.password}`,
       "anonymous": formData.anonymous === "yes" ? true : false,
       "get_reports": formData.get_updates === "yes" ? true : false
     }
@@ -51,9 +51,9 @@ const RegisterPageDonor = ({ role }) => {
   // }
 
     try {
-      const response = await axios.post('http://localhost:8080/v1/donors/register', data, {
+      const response = await axios.post('http://localhost:8080/v1/donors/register', d, {
         headers: {
-          'Content-Type': 'json',
+          'Content-Type': 'application/json',
         },
       });
       console.log(response.data);

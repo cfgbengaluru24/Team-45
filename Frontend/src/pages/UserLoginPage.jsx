@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
+import { useAdminContext } from '../context/AdminContext';
+import { useGrassRootWorkerContext } from '../context/GrassRootWorkerContext';
+import { useDonorContext } from '../context/DonorContext';
+import { useSchoolContext } from '../context/SchoolContext';
 import LoginPageImg from "../../src/assets/images/loginPageImg.jpg";
 
 const UserLoginPage = () => {
@@ -10,10 +13,10 @@ const UserLoginPage = () => {
     password: "",
     userType: "admin",
   });
-  //context
+
+  // context
   const { adminId, setAdminId } = useAdminContext();
-  const { grassRootWorkerId, setGrassRootWorkerId } =
-    useGrassRootWorkerContext();
+  const { grassRootWorkerId, setGrassRootWorkerId } = useGrassRootWorkerContext();
   const { donorId, setDonorId } = useDonorContext();
   const { schoolId, setSchoolId } = useSchoolContext();
 
@@ -119,28 +122,28 @@ const UserLoginPage = () => {
             <p className="text-gray-700">Don't have an account?</p>
             <div className="space-x-2">
               <Link
-                to="/register"
+                to="/admin/register"
                 className="text-blue-500 hover:text-blue-700"
               >
                 Admin
               </Link>
               <Link
-                to="/register"
+                to="/school/register"
                 className="text-blue-500 hover:text-blue-700"
               >
-                Schools
+                School
               </Link>
               <Link
-                to="/register"
+                to="/grassRoot/register"
                 className="text-blue-500 hover:text-blue-700"
               >
-                Grassroot worker
+                Grassroot Worker
               </Link>
               <Link
-                to="/register"
+                to="/donor/register"
                 className="text-blue-500 hover:text-blue-700"
               >
-                Donors
+                Donor
               </Link>
             </div>
           </div>
