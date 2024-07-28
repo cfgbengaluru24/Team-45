@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import EditProfile from './EditProfile';
 import { useDonorContext } from '../context/DonorContext';
 
@@ -9,12 +8,27 @@ const UserInfo = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const {donorId, setDonorId} = useDonorContext();
+  const { donorId, setDonorId } = useDonorContext();
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/v1/donors/donations/8926cab8-a6b4-4e6b-beb4-475f5fcd905e`); // Replace with your API endpoint
-        setUser(response.data);
+        // Replace with dummy data
+        const dummyData = {
+          name: "John Doe",
+          username: "johndoe",
+          email: "johndoe@example.com",
+          phone: "123-456-7890",
+          website: "johndoe.com",
+          company: { name: "Doe Enterprises" },
+          address: {
+            suite: "Apt. 123",
+            street: "456 Elm St",
+            city: "Springfield",
+            zipcode: "12345",
+          },
+        };
+        setUser(dummyData);
         setLoading(false);
       } catch (error) {
         setError(error);

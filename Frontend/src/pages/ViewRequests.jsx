@@ -1,22 +1,47 @@
 // src/components/ViewRequests.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
 const ViewRequests = ({ schoolUUID }) => {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/v1/admin/requests');
-        // Filter requests by school UUID
-        const schoolRequests = response.data.filter(request => request.school_uuid === schoolUUID);
-        setRequests(schoolRequests);
-      } catch (error) {
-        console.error('Error fetching requests:', error);
-      }
-    };
-    fetchRequests();
+    // const fetchRequests = async () => {
+    //   try {
+    //     const response = await axios.get('http://localhost:8080/v1/admin/requests');
+    //     // Filter requests by school UUID
+    //     const schoolRequests = response.data.filter(request => request.school_uuid === schoolUUID);
+    //     setRequests(schoolRequests);
+    //   } catch (error) {
+    //     console.error('Error fetching requests:', error);
+    //   }
+    // };
+    // fetchRequests();
+
+    // Dummy data
+    const dummyRequests = [
+      {
+        id: 1,
+        type: 'Infrastructure',
+        details: 'Need new desks and chairs',
+        assigned_grassroot: 'Grassroot A',
+        status: 'Pending',
+        cost: 5000,
+        donated: 2000,
+        school_uuid: schoolUUID,
+      },
+      {
+        id: 2,
+        type: 'Books',
+        details: 'Require textbooks for grade 10',
+        assigned_grassroot: 'Grassroot B',
+        status: 'Completed',
+        cost: 1000,
+        donated: 1000,
+        school_uuid: schoolUUID,
+      },
+    ];
+    setRequests(dummyRequests.filter(request => request.school_uuid === schoolUUID));
   }, [schoolUUID]);
 
   return (

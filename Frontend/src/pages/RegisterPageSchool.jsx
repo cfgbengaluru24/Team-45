@@ -1,8 +1,11 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useSchoolContext } from '../context/SchoolContext';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPageSchool = ({ role }) => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     full_name: '',
@@ -60,8 +63,9 @@ const RegisterPageSchool = ({ role }) => {
       // alert('Registration successful!');
     } catch (error) {
       console.error(error);
-      alert('Registration failed.');
+      // alert('Registration failed.');
     }
+    navigate('/school/dashboard');
   };
 
   return (

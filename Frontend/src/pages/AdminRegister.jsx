@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useAdminContext } from '../context/AdminContext';
+import { useNavigate } from 'react-router-dom';
 
 const AdminRegister = () => {
   const { setAdminId, setIsLoggedIn } = useAdminContext();
@@ -12,6 +13,8 @@ const AdminRegister = () => {
     phoneNumber: '',
     password: '',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +43,7 @@ const AdminRegister = () => {
     } catch (error) {
       console.error('Error:', error);
     }
+    navigate("/admin/dashboard");
   };
 
   return (

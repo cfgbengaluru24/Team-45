@@ -30,14 +30,15 @@ export default function App() {
     {"path": "/grassRoot/register", "element": <GrassRootWorkerRegister/>},
     {"path": "/school/register", "element": <RegisterPageSchool/>},
     {"path": "/donor/register", "element": <RegisterPageDonor/>},
-    {"path": "/dashboard/school", "element": <DashboardSchool/>},
+    {"path": "/school/dashboard", "element": <DashboardSchool/>},
     {"path": "/viewRequest", "element": <ViewRequests/>},
     {"path": "/submitReques", "element": <SubmitRequest/>},
     {"path": "/grid", "element": <AgGrid/>},
     {"path": "/donate", "element": <DonatePage/>},
-    {"path": "/test", "element": <Combine/>},
+    {"path": "/donor/dashboard", "element": <Combine/>},
     {"path": "/test2", "element": <UserInfo/>},
-    {"path": "/grassRooter", "element": <GrassRooter/>},{"path": "/NGO/Dashboard", "element": <NGODashboard/>},
+    {"path": "/admin/dashboard", "element": <NGODashboard/>},
+    {"path": "/grassRooter/dashboard", "element": <GrassRooter/>},{"path": "/NGO/Dashboard", "element": <NGODashboard/>},
     {"path": "/NGO/AllDonations", "element": <AllDonations/>},
     {"path": "/NGO/Sidebar", "element": <SideBarAdmin/>}
     

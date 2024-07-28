@@ -10,15 +10,15 @@ import SideBarAdmin from './SideBarAdmin'; // Adjust the import path as needed
 const samplePendingRequests = [
     {
         sno: 1,
-        name: 'School A',
-        location: 'Location A',
+        name: 'ABC Public School',
+        location: 'Kurukshetra',
         pictures: ['/path/to/image1.jpg', '/path/to/image2.jpg'],
         documents: ['/path/to/document1.pdf', '/path/to/document2.pdf'],
     },
     {
         sno: 2,
-        name: 'School B',
-        location: 'Location B',
+        name: 'XYZ Public School',
+        location: 'Faridabad',
         pictures: ['/path/to/image3.jpg', '/path/to/image4.jpg'],
         documents: ['/path/to/document3.pdf', '/path/to/document4.pdf'],
     },
@@ -59,7 +59,7 @@ const PendingRequestsTable = ({ onApprove, onReject }) => {
                                 <TableCell>{request.location}</TableCell>
                                 <TableCell>
                                     {request.pictures.map((pic, index) => (
-                                        <img key={index} src={pic} alt={`School ${request.sno}`} style={{ width: 50, height: 50, marginRight: 5 }} />
+                                        <img key={index} src="https://th.bing.com/th/id/OIP.p1_3yqRT1y34Pfxd6kVOtQHaFj?rs=1&pid=ImgDetMain"  alt={`School ${request.sno}`} style={{ width: 50, height: 50, marginRight: 5 }} />
                                     ))}
                                 </TableCell>
                                 <TableCell>

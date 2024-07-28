@@ -2,6 +2,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useDonorContext } from '../context/DonorContext';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPageDonor = ({ role }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const RegisterPageDonor = ({ role }) => {
     anonymous: null,
     get_updates: null,
   });
+
+  const navigate = useNavigate();
 
   const { donorId, setDonorId } = useDonorContext();
   
@@ -64,6 +67,7 @@ const RegisterPageDonor = ({ role }) => {
       console.error(error);
       // alert('Registration failed.');
     }
+    navigate("/donor/dashboard");
   };
 
   return (
