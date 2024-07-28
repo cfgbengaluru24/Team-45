@@ -53,15 +53,12 @@ const HomePage = () => {
           <div className="flex items-center">
             <img src={'https://aspireandglee.com/wp-content/uploads/2014/02/aspireandglee_final.jpg?w=100'} alt="Logo" className="h-10 w-10" />
           </div>
-          <h1 className="text-4xl font-bold" style={{ marginLeft: '420px', marginRight: 'auto' }}>Aspire and Glee</h1>
+          <h1 className="text-4xl font-bold" style={{ marginLeft: '430px', marginRight: 'auto' }}>Aspire and Glee</h1>
           <nav className="space-x-6">
             <NavLink
               exact
               to="/"
-              style={({ isActive }) => ({
-                color: isActive ? "blue" : "gray",
-              })}
-              className="hover:text-gray-700"
+              className="hover:text-blue-700"
             >
               Home
             </NavLink>
@@ -69,7 +66,7 @@ const HomePage = () => {
               to="about"
               smooth={true}
               duration={500}
-              className="cursor-pointer hover:text-gray-700"
+              className="cursor-pointer hover:text-blue-700"
               activeClass="text-blue-500"
             >
               About Us
@@ -78,7 +75,7 @@ const HomePage = () => {
               to="projects"
               smooth={true}
               duration={500}
-              className="cursor-pointer hover:text-gray-700"
+              className="cursor-pointer hover:text-blue-700"
               activeClass="text-blue-500"
             >
               Projects
@@ -87,7 +84,7 @@ const HomePage = () => {
               to="contact"
               smooth={true}
               duration={500}
-              className="cursor-pointer hover:text-gray-700"
+              className="cursor-pointer hover:text-blue-700"
               activeClass="text-blue-500"
             >
               Contact Us
