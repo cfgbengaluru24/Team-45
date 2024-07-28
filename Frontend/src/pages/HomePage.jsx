@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Link as ScrollLink } from "react-scroll";
-import logo from "../../src/assets/images/loginPageImg.jpg";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
+
 let image = [
   'https://aspireandglee.com/wp-content/uploads/2021/07/nityaberia-29.jpeg',
   'https://aspireandglee.com/wp-content/uploads/2021/07/nityaberia-27.jpg?w=1024',
   'https://aspireandglee.com/wp-content/uploads/2021/07/namkhana-19.jpeg'
 ];
-
 
 const HomePage = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -24,14 +23,37 @@ const HomePage = () => {
     navigate('/user/login');
   };
 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log(form);
+    // You can send the form data to the backend or an email service here
+  };
+
   return (
     <div className="bg-gray-100 text-gray-900">
       {/* Header */}
       <header className="bg-white shadow-md py-4">
         <div className="container mx-auto flex justify-between items-center px-6">
+        
           <div className="flex items-center">
-            <img src={logo} alt="Logo" className="h-10 w-10" />
+            <img src={'https://aspireandglee.com/wp-content/uploads/2014/02/aspireandglee_final.jpg?w=100'} alt="Logo" className="h-10 w-10" />
           </div>
+          <h1 className="text-4xl font-bold" style={{ marginLeft: '420px', marginRight: 'auto' }}>Aspire and Glee</h1>
           <nav className="space-x-6">
             <NavLink
               exact
@@ -61,15 +83,15 @@ const HomePage = () => {
             >
               Projects
             </ScrollLink>
-            <NavLink
-              to="/contact"
-              style={({ isActive }) => ({
-                color: isActive ? "blue" : "gray",
-              })}
-              className="hover:text-gray-700"
+            <ScrollLink
+              to="contact"
+              smooth={true}
+              duration={500}
+              className="cursor-pointer hover:text-gray-700"
+              activeClass="text-blue-500"
             >
               Contact Us
-            </NavLink>
+            </ScrollLink>
           </nav>
         </div>
       </header>
@@ -80,7 +102,7 @@ const HomePage = () => {
         className="relative bg-cover bg-center h-screen"
         style={{
           backgroundImage:
-            "url(https://aspireandglee.com/wp-content/uploads/2021/02/jeevan-shishu-7.jpg)",
+            "url(https://aspireandglee.com/wp-content/uploads/2021/11/262010452_2003073386534288_552666063344629341_n.jpg)",
         }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -102,10 +124,10 @@ const HomePage = () => {
             Join us in making a difference
           </motion.p>
           <div className="mt-6 space-x-4">
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-            onClick={handleLogClick}
-          >
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+              onClick={handleLogClick}
+            >
               Log In / Sign Up
             </button>
           </div>
@@ -142,7 +164,7 @@ const HomePage = () => {
             className="mt-8 flex justify-center"
           >
             <img
-              src="http://localhost:5173/src/assets/images/image1.jpg"
+              src="https://aspireandglee.com/wp-content/uploads/2021/02/jeevan-shishu-7.jpg"
               alt="About Us"
               className="rounded-lg shadow-lg"
             />
@@ -173,6 +195,57 @@ const HomePage = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Contact Us Section */}
+      <section id="contact" className="py-16">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center">Contact Us</h2>
+          <form onSubmit={handleSubmit} className="mt-8 max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-700">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-700">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="message" className="block text-gray-700">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="4"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Send Message
+            </button>
+          </form>
         </div>
       </section>
 
