@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserLoginPage from './pages/UserLoginPage';
-import UserRegisterPage from './pages/UserRegisterPage';
+import UserRegisterPage from './pages/AdminRegisterpage.jsx';
 import HomePage from './pages/HomePage';
 import AdminRegister from './pages/AdminRegister';
 import GrassRootWorkerRegister from './pages/GrassRootWorkerRegister';
@@ -24,6 +24,7 @@ import { AdminProvider } from './context/AdminContext.jsx';
 import GrassRooter from './pages/GrassRooter';import NGODashboard from './pages/NGODashboard';
 import AllDonations from './pages/AllDonations';
 import SideBarAdmin from './pages/SideBarAdmin'
+import AdminRegisterPage from "./pages/AdminRegisterpage.jsx";
 export default function App() {
   const router = createBrowserRouter([
     {"path": "/", "element": <HomePage/>},

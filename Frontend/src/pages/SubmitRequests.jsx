@@ -29,7 +29,15 @@ const SubmitRequest = ({ SchoolName }) => {
     data.append('donated', formData.donated);
 
     try {
-      const response = await axios.post('/api/submit-request', data, {
+      const d = {
+        // "request_id" : `${formData.}`,
+        "type" : `${formData.type}`,
+        "deatils": `${formData.details}`,
+        "cost": `${formData.cost}`,
+        "created_at": `${Date.now()}`
+
+      }
+      const response = await axios.post('http://localhost:8080/v1/schoolss/requests', d, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
