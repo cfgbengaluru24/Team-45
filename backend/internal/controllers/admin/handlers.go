@@ -185,8 +185,8 @@ func (a *AdminHandler) GetSchools(c *gin.Context) {
 
 func (a *AdminHandler) AssignRequest(c *gin.Context) {
 	var input struct {
-		RequestID     int64     `json:"request_id" binding:"required"`
-		GrassRootUUID uuid.UUID `json:"grassroot_uuid" binding:"required,uuid"`
+		RequestID     int64       `json:"request_id" binding:"required"`
+		GrassRootUUID pgtype.UUID `json:"grassroot_uuid" binding:"required,uuid"`
 	}
 
 	err := c.ShouldBindJSON(&input)

@@ -189,8 +189,8 @@ WHERE request_id = $2
 `
 
 type AssignGrassrootToRequestParams struct {
-	AssignedGrassroot uuid.UUID `json:"assigned_grassroot"`
-	RequestID         int64     `json:"request_id"`
+	AssignedGrassroot pgtype.UUID `json:"assigned_grassroot"`
+	RequestID         int64       `json:"request_id"`
 }
 
 func (q *Queries) AssignGrassrootToRequest(ctx context.Context, arg AssignGrassrootToRequestParams) error {
@@ -269,6 +269,48 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]GetAllUsersRow, error) {
 	return items, nil
 }
 
+const getRequestsForSchool = `-- name: GetRequestsForSchool :many
+SELECT request_id, type, details, cost, donated, created_at
+FROM requests
+WHERE school_uuid = $1
+`
+
+type GetRequestsForSchoolRow struct {
+	RequestID int64              `json:"request_id"`
+	Type      string             `json:"type"`
+	Details   *string            `json:"details"`
+	Cost      int64              `json:"cost"`
+	Donated   int64              `json:"donated"`
+	CreatedAt pgtype.Timestamptz `json:"created_at"`
+}
+
+func (q *Queries) GetRequestsForSchool(ctx context.Context, schoolUuid uuid.UUID) ([]GetRequestsForSchoolRow, error) {
+	rows, err := q.db.Query(ctx, getRequestsForSchool, schoolUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetRequestsForSchoolRow
+	for rows.Next() {
+		var i GetRequestsForSchoolRow
+		if err := rows.Scan(
+			&i.RequestID,
+			&i.Type,
+			&i.Details,
+			&i.Cost,
+			&i.Donated,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const grassrootsGetRequests = `-- name: GrassrootsGetRequests :many
 Select schools.school_uuid,request_id,"name","location","type","details","cost","created_at"
 from requests
@@ -287,7 +329,7 @@ type GrassrootsGetRequestsRow struct {
 	CreatedAt  pgtype.Timestamptz `json:"created_at"`
 }
 
-func (q *Queries) GrassrootsGetRequests(ctx context.Context, assignedGrassroot uuid.UUID) ([]GrassrootsGetRequestsRow, error) {
+func (q *Queries) GrassrootsGetRequests(ctx context.Context, assignedGrassroot pgtype.UUID) ([]GrassrootsGetRequestsRow, error) {
 	rows, err := q.db.Query(ctx, grassrootsGetRequests, assignedGrassroot)
 	if err != nil {
 		return nil, err

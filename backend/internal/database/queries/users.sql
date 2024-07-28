@@ -53,24 +53,6 @@ Update schools set status=$2 where school_uuid=$1;
 -- name: UpdateRequestStatus :exec
 Update requests set status=$2 where request_id=$1;
 
--- name: DocInsert :exec
-Insert into doctable values ($1,$2,$3,$4);
-
--- name: DocGetSchool :one
-select doc,doc_name,created_at from doctable where request_id IN (
-    select request_id from requests where requests.schooluuid=$1
-)
-
--- name: DocGetStudent :one
-select doc,doc_name,created_at from doctable where request_id IN (
-    select request_id from donations where donations.donation_id=$1
-)
-
--- name: DocGetGrassroots :one
-select doc,doc_name,created_at from doctable where request_id IN (
-    select request_id from requests where requests.schooluuid=$1 AND requests.assigned_grassroot=$2
-)
-
 -- name: AssignGrassrootToRequest :exec
 UPDATE requests
 SET assigned_grassroot = $1 
@@ -94,3 +76,8 @@ WHERE donor_uuid = $2;
 UPDATE requests
 SET donated = donated + $1, status = 6
 WHERE request_id = $2;
+
+-- name: GetRequestsForSchool :many
+SELECT request_id, type, details, cost, donated, created_at
+FROM requests
+WHERE school_uuid = $1;

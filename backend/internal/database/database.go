@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/joho/godotenv/autoload"
@@ -42,8 +43,15 @@ func NewService() *pgxpool.Pool {
 	if dbInstance != nil {
 		return dbInstance
 	}
-	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable&search_path=%s", username, password, host, port, database, schema)
-	db, err := pgxpool.New(context.Background(), connStr)
+	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?prepareThreshold=0&sslmode=disable&search_path=%s", username, password, host, port, database, schema)
+
+	dbConfig, err := pgxpool.ParseConfig(connStr)
+	if err != nil {
+		log.Fatal("Failed to create a config, error: ", err)
+	}
+	dbConfig.ConnConfig.DefaultQueryExecMode = pgx.QueryExecModeExec
+
+	db, err := pgxpool.NewWithConfig(context.Background(), dbConfig)
 	if err != nil {
 		log.Fatal(err)
 	}
